@@ -1,2 +1,2 @@
 # ecore-to-oml
-Model transformation from Ecore to OML
+Ecore-to-OML Model Transformation
