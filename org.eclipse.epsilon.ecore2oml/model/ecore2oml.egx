@@ -1,11 +1,13 @@
+import "ecore2oml.eol";
+ 
 rule Metamodel2OML
 	transform  ePackage : M1!EPackage {
 	
 	parameters : 
 	   Map {
 		"ePackage" = ePackage,
-		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(ecore::EEnum)),
-		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(ecore::EClass))
+		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(M1!ecore::EEnum)),
+		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(M1!ecore::EClass))
 	}
 	template : "metamodel2oml.egl"
 	target : "../src/oml/" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.name.firstToLowerCase + ".oml"
@@ -33,32 +35,4 @@ rule Model2OML {
     }
     template : "model2oml.egl"
     target : "../src/oml/" + getPathFromNsURI() + "/description/"+ getModelName() + ".oml"
-}
-
-function getPathFromNsURI() {
-    var eResource = M2.getResource();
-    var eObject = eResource.getContents.first;
-    return eObject.eClass.ePackage.getPathFromNsURI();
-}
-
-function getEResource() {
-    var eResource = M2.getResource();
-    return eResource;
-}
-
-function getModelName(){
-    var eResource = M2.getResource();
-    var path = eResource.getURI.toString;
-    var startIndex = path.lastIndexOf("/");
-    var endIndex = path.lastIndexOf(".");
-    var name = path.substring(startIndex + 1, endIndex);
-    name = name.replace("\\.", "");
-    return name;
-}
-
-function ecore::EPackage getPathFromNsURI() {
-	var uri = self.nsURI;
-	uri = uri.replace("http://", "");
-	uri = uri.replace("https://", "");
-	return uri;
 }

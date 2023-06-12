@@ -1,3 +1,4 @@
+[% import "ecore2oml.eol"; %]
 @dc:description ""
 description <http://www.leonardo.com/lsaf/sadl/SADL/description/[%=modelName%]#> as [%=modelName%] {
   uses <http://purl.org/dc/elements/1.1/> as dc
@@ -23,7 +24,28 @@ var register = Map{};
     
 %]
   instance [%=name%] : [%=ePackageName%]:[%=eObject.eClass.name%] [
-  [% for (eReference in eClass.eReferences) { 
+[% /* ATTRIBUTES */ %]
+  [% 
+     for (eAttribute in eClass.eAttributes) { 
+       if (not eObject.isSet(eAttribute)){
+         continue;
+       }
+       if (eAttribute.isMany) {
+         var values = eObject.eGet(eAttribute); 
+         for (value in values) {
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString"))? "\"" + value + "\"" : value %]
+  [%     } %]
+  [%   
+     } else if (eObject.eGet(eAttribute) <> null) {
+         var value = eObject.eGet(eAttribute);
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString"))? "\"" + value + "\"" : value %]
+  [%   } %]
+  [% } %]
+[% /* REFERENCES */ %]
+  [% 
+     for (eReference in eClass.eReferences) { 
        if (eReference.isMany) {
          var values = eObject.eGet(eReference); 
          for (value in values) {
@@ -34,7 +56,8 @@ var register = Map{};
   %]
     [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%     } %]
-  [%   } else if (eObject.eGet(eReference) <> null) {
+  [%   
+       } else if (eObject.eGet(eReference) <> null) {
          var value = eObject.eGet(eReference);
          var valueName = value.getName();
          if (eReference.isContainment and register.containsValue(valueName)) {
@@ -54,16 +77,6 @@ var register = Map{};
 [%
 // function
 
-function EObject getName(){
-    var name = (self.eClass.getEStructuralFeature("name") <> null)? self.name : self.eClass.name.toLowerCase;
-    return name;
-}
-function ecore::EPackage getPathFromNsURI() {
-    var uri = self.nsURI;
-    uri = uri.replace("http://", "");
-    uri = uri.replace("https://", "");
-    return uri;
-}
 
 
 %]

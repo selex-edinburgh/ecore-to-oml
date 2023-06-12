@@ -1,3 +1,4 @@
+[% import "ecore2oml.eol"; %]
 vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/[%=ePackage.name%]#> as [%=ePackage.name.firstToLowerCase%] {
   extends <http://www.w3.org/2000/01/rdf-schema#> as rdfs
   extends <http://www.w3.org/2001/XMLSchema#> as xsd
@@ -15,11 +16,10 @@ vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/[%=ePackage.name%
   concept [%=eClass.name%] < base:IdentifiedThing[%=eClass.getParentClasses()%]
 
 [% for (eAttribute in eClass.getEAttributes) { %]
-  [% if (eAttribute.name.equals("name")) continue; %]
   @rdfs:comment ""
   scalar property [%=eClass.name.firstToLowerCase%]_[%=eAttribute.name%] [
     domain [%=eClass.name%]
-    range xsd:string
+    range [%=eAttribute.getXsdType()%]
     functional
   ]
 [% } %]  
@@ -58,26 +58,3 @@ vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/[%=ePackage.name%
 [% } %]
 
 }
-
-[%
-
-function ecore::EPackage getPathFromNsURI() {
-	var uri = self.nsURI;
-	uri = uri.replace("http://", "");
-	uri = uri.replace("https://", "");
-	return uri;
-}
-
-function ecore::EClass getParentClasses() {
-    var parentNames = self.getESuperTypes.collect(s | s.name);
-    var temp = parentNames.concat(", ");
-    var names = (temp.length > 0)? ", " + temp : names;  
-    return names;
-}
-
-function ecore::EEnum getLiterals() {
-    var literals = self.getELiterals.concat(",\n");  
-    return literals;
-}
-
-%]
