@@ -1,5 +1,5 @@
-rule Ecore2OML  
-	transform  ePackage : ecore::EPackage {
+rule Metamodel2OML
+	transform  ePackage : M1!EPackage {
 	
 	parameters : 
 	   Map {
@@ -7,13 +7,12 @@ rule Ecore2OML
 		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(ecore::EEnum)),
 		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(ecore::EClass))
 	}
-	template : "ecore2oml.egl"
+	template : "metamodel2oml.egl"
 	target : "../src/oml/" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.name.firstToLowerCase + ".oml"
 }
 
 
-rule BaseOML  
-	transform  ePackage : ecore::EPackage {
+rule BaseOML transform  ePackage : M1!EPackage {
 	
 	parameters : 
 	   Map {
@@ -25,6 +24,37 @@ rule BaseOML
 	target : "../src/oml/"+ ePackage.getPathFromNsURI() + "/vocabulary/base.oml"
 }
 
+rule Model2OML {
+    
+    parameters : 
+       Map {
+        "modelName" = getModelName(),
+        "eResource" = getEResource()
+    }
+    template : "model2oml.egl"
+    target : "../src/oml/" + getPathFromNsURI() + "/description/"+ getModelName() + ".oml"
+}
+
+function getPathFromNsURI() {
+    var eResource = M2.getResource();
+    var eObject = eResource.getContents.first;
+    return eObject.eClass.ePackage.getPathFromNsURI();
+}
+
+function getEResource() {
+    var eResource = M2.getResource();
+    return eResource;
+}
+
+function getModelName(){
+    var eResource = M2.getResource();
+    var path = eResource.getURI.toString;
+    var startIndex = path.lastIndexOf("/");
+    var endIndex = path.lastIndexOf(".");
+    var name = path.substring(startIndex + 1, endIndex);
+    name = name.replace("\\.", "");
+    return name;
+}
 
 function ecore::EPackage getPathFromNsURI() {
 	var uri = self.nsURI;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sADL:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sADL="http://www.leonardo.com/lsaf/sadl/SADL" xsi:schemaLocation="http://www.leonardo.com/lsaf/sadl/SADL SADL.ecore#/0">
+  <package name="hello">
+    <contents xsi:type="sADL:Primitive" name="real"/>
+    <contents xsi:type="sADL:Primitive" name="integer"/>
+    <contents xsi:type="sADL:Topic" name="First">
+      <attributes type="//@package.0/@contents.0" name="attr1"/>
+      <attributes type="//@package.0/@contents.1" name="attr2"/>
+      <attributes type="//@package.0/@contents.3" name="attr3"/>
+      <attributes type="//@package.0/@contents.4" name="attr4"/>
+    </contents>
+    <contents xsi:type="sADL:Topic" name="Second"/>
+    <contents xsi:type="sADL:Enumeration" name="EFirst">
+      <enumerators name="one"/>
+      <enumerators name="two"/>
+      <enumerators name="three"/>
+    </contents>
+    <contents xsi:type="sADL:Interface" name="IFirst">
+      <ports xsi:type="sADL:TopicPort" name="a" type="//@package.0/@contents.2"/>
+      <ports xsi:type="sADL:TopicPort" name="b" conjugated="true" type="//@package.0/@contents.3"/>
+    </contents>
+    <contents xsi:type="sADL:Component" name="CFirst">
+      <ports xsi:type="sADL:InterfacePort" name="a" conjugated="true" type="//@package.0/@contents.5"/>
+    </contents>
+  </package>
+</sADL:Model>

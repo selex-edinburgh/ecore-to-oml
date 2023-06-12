@@ -29,11 +29,11 @@ vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/[%=ePackage.name%
   relation entity [%=eClass.name + "_" + eReference.name + "_" + eReference.eType.name%] [
     from [%=eClass.name%]
     to [%=eReference.eType.name%]
-    forward [%=(eClass.name + "_" + eReference.name + "_" + eReference.eType.name).firstToLowerCase%]
+    forward [%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%]
     [%if (eReference.eOpposite <> null) {%]
-    reverse [%=(eReference.eType.name + "_" + eReference.eOpposite.name + "_" + eClass.name).firstToLowerCase%]    
+    reverse [%=eReference.eType.name.firstToLowerCase + "_" + eReference.eOpposite.name + "_" + eClass.name.firstToLowerCase%]    
     [% } else if (eReference.isContainment) { %]
-    reverse [%=(eReference.eType.name + "_container_" + eReference.eContainer.name).firstToLowerCase%]
+    reverse [%=eReference.eType.name.firstToLowerCase + "_container_" + eReference.eContainer.name.firstToLowerCase%]
     [% } %]
     [%if (eReference.eOpposite <> null or eReference.isContainment) {%]
     symmetric        

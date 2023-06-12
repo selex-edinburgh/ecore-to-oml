@@ -1,0 +1,69 @@
+@dc:description ""
+description <http://www.leonardo.com/lsaf/sadl/SADL/description/[%=modelName%]#> as [%=modelName%] {
+  uses <http://purl.org/dc/elements/1.1/> as dc
+[%
+// global variables
+var ePackage = eResource.getContents.first.eClass.ePackage;
+var nsPrefix = ePackage.nsPrefix.toLowerCase;
+var nsUri = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.nsPrefix + "#";
+var ePackageName = nsPrefix.toLowerCase;
+var register = Map{};
+%]
+  uses <[%=nsUri%]> as [%=ePackageName%]
+
+
+
+[% for (eObject in eResource.getAllContents) { 
+    var name = eObject.getName();
+    var eClass = eObject.eClass;
+    if (register.containsValue(name)) {
+      name = eObject.eContainer.getName() + "_" + name;
+    } 
+    register.put(eObject, name);
+    
+%]
+  instance [%=name%] : [%=ePackageName%]:[%=eObject.eClass.name%] [
+  [% for (eReference in eClass.eReferences) { 
+       if (eReference.isMany) {
+         var values = eObject.eGet(eReference); 
+         for (value in values) {
+           var valueName = value.getName();
+           if (eReference.isContainment and register.containsValue(valueName)) {
+             valueName = value.eContainer.getName() + "_" + valueName;
+           }
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+  [%     } %]
+  [%   } else if (eObject.eGet(eReference) <> null) {
+         var value = eObject.eGet(eReference);
+         var valueName = value.getName();
+         if (eReference.isContainment and register.containsValue(valueName)) {
+           valueName = value.eContainer.getName() + "_" + valueName;
+         } 
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+  [%   } %]
+  [% } %]
+  ]
+       
+
+[% } %]
+
+}
+
+[%
+// function
+
+function EObject getName(){
+    var name = (self.eClass.getEStructuralFeature("name") <> null)? self.name : self.eClass.name.toLowerCase;
+    return name;
+}
+function ecore::EPackage getPathFromNsURI() {
+    var uri = self.nsURI;
+    uri = uri.replace("http://", "");
+    uri = uri.replace("https://", "");
+    return uri;
+}
+
+
+%]

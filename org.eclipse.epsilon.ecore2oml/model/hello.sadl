@@ -1,4 +1,4 @@
-package first
+package hello
     primitive real;
     primitive integer; 
     
