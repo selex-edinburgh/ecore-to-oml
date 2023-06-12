@@ -1,0 +1,30 @@
+package first
+    primitive real;
+    primitive integer; 
+    
+    topic First
+        attribute real attr1;
+        attribute integer attr2;
+        attribute Second attr3;
+        attribute EFirst attr4;
+    end
+    
+    topic Second
+    end
+    
+    enum EFirst
+        value one;
+        value two;
+        value three;
+    end
+    
+    interface IFirst
+        port a sends First;
+        port b receives Second;
+    end
+    
+    component CFirst
+        port a requires IFirst;
+    end
+end
+

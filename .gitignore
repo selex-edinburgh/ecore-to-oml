@@ -22,3 +22,13 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/checksums
+/org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/executionHistory
+/org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/dependencies-accessors
+/org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/fileHashes
+/org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/fileChanges
+/org.eclipse.epsilon.ecore2oml/.gradle/buildOutputCleanup
+/org.eclipse.epsilon.ecore2oml/.gradle/file-system.probe
+/org.eclipse.epsilon.ecore2oml/.gradle/vcs-1/gc.properties
+/org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/gc.properties
+/org.eclipse.epsilon.ecore2oml/.settings

@@ -1,0 +1,12 @@
+vocabulary <http://test#> as test {
+
+	concept c
+
+	aspect a
+
+	relation entity R [
+		from c
+		to a
+		forward r
+	]
+}

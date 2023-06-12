@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+	<rewriteURI uriStartString="http://ecore2oml.com/ecore2oml/" rewritePrefix="src/oml/ecore2oml.com/ecore2oml/"/>
+	<rewriteURI uriStartString="http://www.leonardo.com/lsaf/sadl/SADL/" rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/SADL/"/>
+	<rewriteURI uriStartString="http://" rewritePrefix="build/oml/"/>
+</catalog>

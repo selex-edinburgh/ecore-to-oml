@@ -1,0 +1,93 @@
+@namespace(uri="http://www.leonardo.com/lsaf/sadl/SADL", prefix="sADL")
+package sADL;
+
+class Model {
+	val Package[*] ~package;
+}
+
+class Package {
+	attr String name;
+	attr String description;
+	val PackageableElement[*] contents;
+}
+
+class PackageableElement {
+	attr String name;
+}
+
+class Unit extends PackageableElement {
+	ref Unit group;
+	attr String description;
+}
+
+class Type extends PackageableElement {
+}
+
+class Component extends PackageableElement {
+	attr String description;
+	val Port[*] ports;
+}
+
+class Primitive extends Type {
+	attr double min;
+	attr double max;
+	attr double res;
+}
+
+class Interface extends PackageableElement {
+	attr String description;
+	val Port[*] ports;
+}
+
+class Enumeration extends Type {
+	attr String description;
+	val Enumerator[*] enumerators;
+}
+
+class Topic extends Type {
+	attr String description;
+	val Attribute[*] attributes;
+}
+
+class Alias extends Type {
+	ref Type type;
+	attr double min;
+	attr double max;
+	attr double res;
+	attr String unbounded;
+	attr int upperbound;
+	ref Unit unit;
+	attr String description;
+}
+
+class Port {
+	attr String name;
+	attr boolean conjugated;
+}
+
+class Enumerator {
+	attr boolean deprecated;
+	attr String name;
+	attr int value;
+	attr String description;
+}
+
+class Attribute {
+	attr boolean deprecated;
+	ref Type type;
+	attr String name;
+	attr boolean unbounded;
+	attr int lowerbound;
+	attr int upperbound;
+	ref Unit unit;
+	attr String description;
+}
+
+class TopicPort extends Port {
+	ref Topic type;
+}
+
+class InterfacePort extends Port {
+	ref Interface type;
+}
+

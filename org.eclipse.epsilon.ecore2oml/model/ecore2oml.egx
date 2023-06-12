@@ -1,0 +1,34 @@
+rule Ecore2OML  
+	transform  ePackage : ecore::EPackage {
+	
+	parameters : 
+	   Map {
+		"ePackage" = ePackage,
+		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(ecore::EEnum)),
+		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(ecore::EClass))
+	}
+	template : "ecore2oml.egl"
+	target : "../src/oml/" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.name.firstToLowerCase + ".oml"
+}
+
+
+rule BaseOML  
+	transform  ePackage : ecore::EPackage {
+	
+	parameters : 
+	   Map {
+		"ePackage" = ePackage,
+		"eClassifiers" = ePackage.getEClassifiers
+	}
+	
+	template : "baseoml.egl"
+	target : "../src/oml/"+ ePackage.getPathFromNsURI() + "/vocabulary/base.oml"
+}
+
+
+function ecore::EPackage getPathFromNsURI() {
+	var uri = self.nsURI;
+	uri = uri.replace("http://", "");
+	uri = uri.replace("https://", "");
+	return uri;
+}

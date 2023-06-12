@@ -1,0 +1,373 @@
+vocabulary <http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL#> as sADL {
+  extends <http://www.w3.org/2000/01/rdf-schema#> as rdfs
+  extends <http://www.w3.org/2001/XMLSchema#> as xsd
+  extends <http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/base#> as base
+
+
+  @rdfs:comment ""
+  concept Model < base:IdentifiedThing
+
+  
+
+  @rdfs:comment ""
+  relation entity Model_package_Package [
+    from Model
+    to Package
+    forward model_package_Package
+    reverse package_container_Model
+    symmetric        
+    irreflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Package < base:IdentifiedThing
+
+  @rdfs:comment ""
+  scalar property package_description [
+    domain Package
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Package_contents_PackageableElement [
+    from Package
+    to PackageableElement
+    forward package_contents_PackageableElement
+    reverse packageableElement_container_Package
+    symmetric        
+    irreflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept PackageableElement < base:IdentifiedThing
+
+  
+
+
+  @rdfs:comment ""
+  concept Unit < base:IdentifiedThing, PackageableElement
+
+  @rdfs:comment ""
+  scalar property unit_description [
+    domain Unit
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Unit_group_Unit [
+    from Unit
+    to Unit
+    forward unit_group_Unit
+    asymmetric
+    functional
+    reflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Type < base:IdentifiedThing, PackageableElement
+
+  
+
+
+  @rdfs:comment ""
+  concept Component < base:IdentifiedThing, PackageableElement
+
+  @rdfs:comment ""
+  scalar property component_description [
+    domain Component
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Component_ports_Port [
+    from Component
+    to Port
+    forward component_ports_Port
+    reverse port_container_Component
+    symmetric        
+    irreflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Primitive < base:IdentifiedThing, Type
+
+  @rdfs:comment ""
+  scalar property primitive_min [
+    domain Primitive
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property primitive_max [
+    domain Primitive
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property primitive_res [
+    domain Primitive
+    range xsd:string
+    functional
+  ]
+  
+
+
+  @rdfs:comment ""
+  concept Interface < base:IdentifiedThing, PackageableElement
+
+  @rdfs:comment ""
+  scalar property interface_description [
+    domain Interface
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Interface_ports_Port [
+    from Interface
+    to Port
+    forward interface_ports_Port
+    reverse port_container_Interface
+    symmetric        
+    irreflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Enumeration < base:IdentifiedThing, Type
+
+  @rdfs:comment ""
+  scalar property enumeration_description [
+    domain Enumeration
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Enumeration_enumerators_Enumerator [
+    from Enumeration
+    to Enumerator
+    forward enumeration_enumerators_Enumerator
+    reverse enumerator_container_Enumeration
+    symmetric        
+    irreflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Topic < base:IdentifiedThing, Type
+
+  @rdfs:comment ""
+  scalar property topic_description [
+    domain Topic
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Topic_attributes_Attribute [
+    from Topic
+    to Attribute
+    forward topic_attributes_Attribute
+    reverse attribute_container_Topic
+    symmetric        
+    irreflexive
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Alias < base:IdentifiedThing, Type
+
+  @rdfs:comment ""
+  scalar property alias_min [
+    domain Alias
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property alias_max [
+    domain Alias
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property alias_res [
+    domain Alias
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property alias_unbounded [
+    domain Alias
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property alias_upperbound [
+    domain Alias
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property alias_description [
+    domain Alias
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Alias_type_Type [
+    from Alias
+    to Type
+    forward alias_type_Type
+    asymmetric
+    functional
+    transitive  
+  ]
+  @rdfs:comment ""
+  relation entity Alias_unit_Unit [
+    from Alias
+    to Unit
+    forward alias_unit_Unit
+    asymmetric
+    functional
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept Port < base:IdentifiedThing
+
+  @rdfs:comment ""
+  scalar property port_conjugated [
+    domain Port
+    range xsd:string
+    functional
+  ]
+  
+
+
+  @rdfs:comment ""
+  concept Enumerator < base:IdentifiedThing
+
+  @rdfs:comment ""
+  scalar property enumerator_deprecated [
+    domain Enumerator
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property enumerator_value [
+    domain Enumerator
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property enumerator_description [
+    domain Enumerator
+    range xsd:string
+    functional
+  ]
+  
+
+
+  @rdfs:comment ""
+  concept Attribute < base:IdentifiedThing
+
+  @rdfs:comment ""
+  scalar property attribute_deprecated [
+    domain Attribute
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property attribute_unbounded [
+    domain Attribute
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property attribute_lowerbound [
+    domain Attribute
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property attribute_upperbound [
+    domain Attribute
+    range xsd:string
+    functional
+  ]
+  @rdfs:comment ""
+  scalar property attribute_description [
+    domain Attribute
+    range xsd:string
+    functional
+  ]
+  
+
+  @rdfs:comment ""
+  relation entity Attribute_type_Type [
+    from Attribute
+    to Type
+    forward attribute_type_Type
+    asymmetric
+    functional
+    transitive  
+  ]
+  @rdfs:comment ""
+  relation entity Attribute_unit_Unit [
+    from Attribute
+    to Unit
+    forward attribute_unit_Unit
+    asymmetric
+    functional
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept TopicPort < base:IdentifiedThing, Port
+
+  
+
+  @rdfs:comment ""
+  relation entity TopicPort_type_Topic [
+    from TopicPort
+    to Topic
+    forward topicPort_type_Topic
+    asymmetric
+    functional
+    transitive  
+  ]
+
+  @rdfs:comment ""
+  concept InterfacePort < base:IdentifiedThing, Port
+
+  
+
+  @rdfs:comment ""
+  relation entity InterfacePort_type_Interface [
+    from InterfacePort
+    to Interface
+    forward interfacePort_type_Interface
+    asymmetric
+    functional
+    transitive  
+  ]
+
+
+}
+
