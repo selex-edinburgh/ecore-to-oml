@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ASCII"?>
+<java:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" name="Dummy">
+  <ownedElements name="package01">
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.0" name="Class1">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.0" name="field1"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="method1">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.1" name="Class2">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.1">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.1" name="field2"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.1" name="method2">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.2" name="Class3">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.2">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.2" name="field3"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.2" name="method3">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.3" name="Class4">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.3">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.3" name="field4"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.3" name="method4">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.4" name="Class5">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.4">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.4" name="field5"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.4" name="method5">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.5" name="Class6">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.5">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.5" name="field6"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.5" name="method6">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.6" name="Class7">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.6">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.6" name="field7"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.6" name="method7">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.7" name="Class8">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.7">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.7" name="field8"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.7" name="method8">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+    <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.8" name="Class9">
+      <modifier visibility="public"/>
+      <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.8">
+        <modifier visibility="private"/>
+        <type type="//@orphanTypes.0"/>
+        <fragments originalCompilationUnit="//@compilationUnits.8" name="field9"/>
+      </bodyDeclarations>
+      <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.8" name="method9">
+        <modifier visibility="public"/>
+        <returnType type="//@orphanTypes.4"/>
+      </bodyDeclarations>
+    </ownedElements>
+  </ownedElements>
+  <orphanTypes xsi:type="java:PrimitiveTypeInt" name="int" usagesInTypeAccess="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.1/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.2/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.3/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.4/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.5/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.6/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.7/@bodyDeclarations.0/@type //@ownedElements.0/@ownedElements.8/@bodyDeclarations.0/@type"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeLong" name="long"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean" usagesInTypeAccess="//@ownedElements.0/@ownedElements.0/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.1/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.2/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.3/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.4/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.5/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.6/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.7/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedElements.8/@bodyDeclarations.1/@returnType"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
+  <compilationUnits name="Class1.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class1.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.0"/>
+  <compilationUnits name="Class2.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class2.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.1"/>
+  <compilationUnits name="Class3.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class3.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.2"/>
+  <compilationUnits name="Class4.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class4.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.3"/>
+  <compilationUnits name="Class5.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class5.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.4"/>
+  <compilationUnits name="Class6.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class6.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.5"/>
+  <compilationUnits name="Class7.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class7.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.6"/>
+  <compilationUnits name="Class8.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class8.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.7"/>
+  <compilationUnits name="Class9.java" originalFilePath="C:\eclipse.picto\workspace\Dummy\src\package01\Class9.java" package="//@ownedElements.0" types="//@ownedElements.0/@ownedElements.8"/>
+</java:Model>

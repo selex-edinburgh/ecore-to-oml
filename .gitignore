@@ -32,3 +32,11 @@ replay_pid*
 /org.eclipse.epsilon.ecore2oml/.gradle/vcs-1/gc.properties
 /org.eclipse.epsilon.ecore2oml/.gradle/8.1.1/gc.properties
 /org.eclipse.epsilon.ecore2oml/.settings
+/org.york.leonardo/.settings
+/targetoml/.gradle/8.1.1
+/targetoml/.gradle/buildOutputCleanup
+/targetoml/src/oml
+/targetoml/build
+/targetoml/.settings
+/targetoml/.gradle/vcs-1
+/targetoml/.gradle

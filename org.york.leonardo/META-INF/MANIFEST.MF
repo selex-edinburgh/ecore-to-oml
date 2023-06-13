@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Leonardo
+Bundle-SymbolicName: org.york.leonardo
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: org.york.leonardo
+Export-Package: org.york.leonardo,
+ org.york.leonardo.test
+Require-Bundle: org.eclipse.epsilon.egl.engine;bundle-version="2.5.0",
+ org.eclipse.epsilon.emc.emf;bundle-version="2.5.0"

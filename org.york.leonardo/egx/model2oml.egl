@@ -1,0 +1,86 @@
+[% import "ecore2oml.eol"; %]
+[%
+// global variables
+var ePackage = eResource.getContents.first.eClass.ePackage;
+var nsPrefix = ePackage.nsPrefix;
+if (nsPrefix.trim.length == 0)
+    nsPrefix = ePackage.name;
+var nsUriVocabulary = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" + nsPrefix + "#";
+var nsUriDescription = "http://" + ePackage.getPathFromNsURI() + "/description/" + modelName + "#";
+var ePackageName = nsPrefix.toLowerCase;
+
+var register = Map{};
+%]
+@dc:description ""
+description <[%=nsUriDescription%]> as [%=modelName%] {
+  uses <http://purl.org/dc/elements/1.1/> as dc
+  uses <[%=nsUriVocabulary%]> as [%=ePackageName%]
+
+
+
+[% for (eObject in eResource.getAllContents) { 
+    var name = eObject.getName();
+    var eClass = eObject.eClass;
+    if (register.containsValue(name)) {
+      name = eObject.eContainer.getName() + "_" + name;
+    } 
+    register.put(eObject, name);
+    
+%]
+  instance [%=name%] : [%=ePackageName%]:[%=eObject.eClass.name%] [
+[% /* ATTRIBUTES */ %]
+  [% 
+     for (eAttribute in eClass.eAttributes) { 
+       if (not eObject.isSet(eAttribute)){
+         continue;
+       }
+       if (eAttribute.isMany) {
+         var values = eObject.eGet(eAttribute); 
+         for (value in values) {
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
+  [%     } %]
+  [%   
+     } else if (eObject.eGet(eAttribute) <> null) {
+         var value = eObject.eGet(eAttribute);
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
+  [%   } %]
+  [% } %]
+[% /* REFERENCES */ %]
+  [% 
+     for (eReference in eClass.eReferences) { 
+       if (eReference.isMany) {
+         var values = eObject.eGet(eReference); 
+         for (value in values) {
+           var valueName = value.getName();
+           if (eReference.isContainment and register.containsValue(valueName)) {
+             valueName = value.eContainer.getName() + "_" + valueName;
+           }
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+  [%     } %]
+  [%   
+       } else if (eObject.eGet(eReference) <> null) {
+         var value = eObject.eGet(eReference);
+         var valueName = value.getName();
+         if (eReference.isContainment and register.containsValue(valueName)) {
+           valueName = value.eContainer.getName() + "_" + valueName;
+         } 
+  %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+  [%   } %]
+  [% } %]
+  ]
+       
+
+[% } %]
+
+}
+
+[%
+// function
+
+
+
+%]

@@ -1,0 +1,38 @@
+import "ecore2oml.eol";
+ 
+rule Metamodel2OML
+	transform  ePackage : M1!EPackage {
+	
+	parameters : 
+	   Map {
+		"ePackage" = ePackage,
+		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(M1!ecore::EEnum)),
+		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(M1!ecore::EClass))
+	}
+	template : "metamodel2oml.egl"
+	target : "../../targetoml/src/oml/" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.name.firstToLowerCase + ".oml"
+}
+
+
+rule BaseOML transform  ePackage : M1!EPackage {
+	
+	parameters : 
+	   Map {
+		"ePackage" = ePackage,
+		"eClassifiers" = ePackage.getEClassifiers
+	}
+	
+	template : "baseoml.egl"
+	target : "../../targetoml/src/oml/"+ ePackage.getPathFromNsURI() + "/vocabulary/base.oml"
+}
+
+rule Model2OML {
+    
+    parameters : 
+       Map {
+        "modelName" = getModelName(),
+        "eResource" = getEResource()
+    }
+    template : "model2oml.egl"
+    target : "../../targetoml//src/oml/" + getPathFromNsURI() + "/description/"+ getModelName() + ".oml"
+}
