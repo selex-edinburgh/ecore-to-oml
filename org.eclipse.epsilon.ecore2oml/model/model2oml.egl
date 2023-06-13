@@ -1,16 +1,20 @@
 [% import "ecore2oml.eol"; %]
-@dc:description ""
-description <http://www.leonardo.com/lsaf/sadl/SADL/description/[%=modelName%]#> as [%=modelName%] {
-  uses <http://purl.org/dc/elements/1.1/> as dc
 [%
 // global variables
 var ePackage = eResource.getContents.first.eClass.ePackage;
-var nsPrefix = ePackage.nsPrefix.toLowerCase;
-var nsUri = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.nsPrefix + "#";
+var nsPrefix = ePackage.nsPrefix;
+if (nsPrefix.trim.length == 0)
+    nsPrefix = ePackage.name;
+var nsUriVocabulary = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" + nsPrefix + "#";
+var nsUriDescription = "http://" + ePackage.getPathFromNsURI() + "/description/" + modelName + "#";
 var ePackageName = nsPrefix.toLowerCase;
+
 var register = Map{};
 %]
-  uses <[%=nsUri%]> as [%=ePackageName%]
+@dc:description ""
+description <[%=nsUriDescription%]> as [%=modelName%] {
+  uses <http://purl.org/dc/elements/1.1/> as dc
+  uses <[%=nsUriVocabulary%]> as [%=ePackageName%]
 
 
 
