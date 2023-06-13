@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.york.leonardo.Ecore2Oml;
 
@@ -18,6 +19,15 @@ import com.google.inject.Injector;
 import io.opencaesar.oml.dsl.OmlStandaloneSetup;
 
 class Ecore2OmlTest {
+
+  private static Injector injector;
+  private static OmlStandaloneSetup omlSetup;
+
+  @BeforeAll
+  public static void initialisation() {
+    omlSetup = new OmlStandaloneSetup();
+    injector = omlSetup.createInjectorAndDoEMFRegistration();
+  }
 
   /***
    * Test sADL model from XMI to OML
@@ -38,8 +48,6 @@ class Ecore2OmlTest {
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("sADL");
 
-    OmlStandaloneSetup omlSetup = new OmlStandaloneSetup();
-    Injector injector = omlSetup.createInjectorAndDoEMFRegistration();
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
     omlResource.load(null);
@@ -61,12 +69,37 @@ class Ecore2OmlTest {
     ecore2oml.xmiToOml(model, metamodel);
 
     // assert
-    File omlVocabulary = new File("../targetoml/src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml");
+    File omlVocabulary = new File(
+        "../targetoml/src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("java");
 
-    OmlStandaloneSetup omlSetup = new OmlStandaloneSetup();
-    Injector injector = omlSetup.createInjectorAndDoEMFRegistration();
+    XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
+    omlResource.load(null);
+    assertThat(omlResource.getContents().size()).isGreaterThan(0);
+  }
+  
+  /***
+   * Test Modisco Java model to OML
+   * 
+   * @throws Exception
+   */
+  @Test
+  void testEcore2Oml() throws Exception {
+
+    File model = new File("model/Ecore.ecore");
+    File metamodel = new File("model/Ecore.ecore");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.ecoreToOml(model, metamodel);
+
+    // assert
+    File omlVocabulary = new File(
+        "../targetoml/src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml");
+    String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
+    assertThat(output).contains("java");
+
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
     omlResource.load(null);
@@ -92,8 +125,6 @@ class Ecore2OmlTest {
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("sADL");
 
-    OmlStandaloneSetup omlSetup = new OmlStandaloneSetup();
-    Injector injector = omlSetup.createInjectorAndDoEMFRegistration();
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
     omlResource.load(null);

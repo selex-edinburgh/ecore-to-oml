@@ -20,7 +20,17 @@ operation getModelName(){
 }
 
 operation M2!ecore::EObject getName(){
-    var name = (self.eClass.getEStructuralFeature("name") <> null)? self.name : self.eClass.name.toLowerCase;
+    var name = null;
+    if (self.eClass.getEStructuralFeature("name") <> null) {
+        name = self.name; 
+    }
+    if (name == null or name.trim.length == 0) {
+        name = self.eClass.name.firstToLowerCase;
+    }
+    if (self.eContainer != null) {
+        name = self.eContainer.getName().firstToLowerCase + "_" + name;
+    }
+    
     return name;
 }
 
@@ -44,6 +54,8 @@ operation M1!ecore::EEnum getLiterals() {
 }
 
 operation M2!ecore::EStructuralFeature isSet(eObject) {
+    eObject.println;
+    self.println;
 	var isSet = eObject.eIsSet(self); 
     return isSet;
 }

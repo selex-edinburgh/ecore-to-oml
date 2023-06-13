@@ -9,7 +9,6 @@ var nsUriVocabulary = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" +
 var nsUriDescription = "http://" + ePackage.getPathFromNsURI() + "/description/" + modelName + "#";
 var ePackageName = nsPrefix.toLowerCase;
 
-var register = Map{};
 %]
 @dc:description ""
 description <[%=nsUriDescription%]> as [%=modelName%] {
@@ -21,17 +20,12 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
 [% for (eObject in eResource.getAllContents) { 
     var name = eObject.getName();
     var eClass = eObject.eClass;
-    if (register.containsValue(name)) {
-      name = eObject.eContainer.getName() + "_" + name;
-    } 
-    register.put(eObject, name);
-    
 %]
   instance [%=name%] : [%=ePackageName%]:[%=eObject.eClass.name%] [
 [% /* ATTRIBUTES */ %]
   [% 
      for (eAttribute in eClass.eAttributes) { 
-       if (not eObject.isSet(eAttribute)){
+       if (eAttribute.eClass.name == eObject.eClass.name or not eObject.isSet(eAttribute)){
          continue;
        }
        if (eAttribute.isMany) {
@@ -54,9 +48,9 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
          var values = eObject.eGet(eReference); 
          for (value in values) {
            var valueName = value.getName();
-           if (eReference.isContainment and register.containsValue(valueName)) {
-             valueName = value.eContainer.getName() + "_" + valueName;
-           }
+//           if (eReference.isContainment) {
+//             valueName = value.eContainer.getName().firstToLowerCase + "_" + valueName;
+//           }
   %]
     [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%     } %]
@@ -64,9 +58,9 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
        } else if (eObject.eGet(eReference) <> null) {
          var value = eObject.eGet(eReference);
          var valueName = value.getName();
-         if (eReference.isContainment and register.containsValue(valueName)) {
-           valueName = value.eContainer.getName() + "_" + valueName;
-         } 
+//         if (eReference.isContainment) {
+//           valueName = value.eContainer.getName().firstToLowerCase + "_" + valueName;
+//         } 
   %]
     [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%   } %]

@@ -9,6 +9,10 @@
 	<rewriteURI
 		uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/"
 		rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/" />
+  <rewriteURI
+    uriStartString="http://www.eclipse.org/emf/2002/Ecore/"
+    rewritePrefix="src/oml/www.eclipse.org/emf/2002/Ecore/" />
 	<rewriteURI uriStartString="http://"
 		rewritePrefix="build/oml/" />
 </catalog>
+
