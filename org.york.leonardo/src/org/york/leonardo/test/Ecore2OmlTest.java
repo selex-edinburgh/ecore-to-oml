@@ -37,7 +37,7 @@ class Ecore2OmlTest {
   @Test
   void testSADLXmi2Oml() throws Exception {
 
-    File model = new File("model/hello.xmi");
+    File model = new File("model/first.xmi");
     File metamodel = new File("model/SADL.ecore");
 
     Ecore2Oml ecore2oml = new Ecore2Oml();
@@ -114,7 +114,7 @@ class Ecore2OmlTest {
   @Test
   void testSADLCode2Oml() throws Exception {
 
-    File model = new File("model/hello.sadl");
+    File model = new File("model/first.sadl");
     File metamodel = new File("model/SADL.ecore");
 
     Ecore2Oml ecore2oml = new Ecore2Oml();
