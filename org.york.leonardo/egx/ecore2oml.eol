@@ -28,9 +28,8 @@ operation M2!ecore::EObject getName(){
         name = self.eClass.name.firstToLowerCase;
     }
     if (self.eContainer != null) {
-        name = self.eContainer.getName().firstToLowerCase + "_" + name;
-    }
-    
+        name = self.eContainer.getName().firstToLowerCase + "_" + name.firstToLowerCase;
+    } 
     return name;
 }
 
@@ -53,10 +52,15 @@ operation M1!ecore::EEnum getLiterals() {
     return literals;
 }
 
-operation M2!ecore::EStructuralFeature isSet(eObject) {
-    eObject.println;
-    self.println;
-	var isSet = eObject.eIsSet(self); 
+operation M1!ecore::EStructuralFeature isSet(eObject) {
+    var isSet = false;
+    if (eObject.eClass.ePackage.nsURI == self.eClass.ePackage.nsURI
+        and eObject.eClass.ePackage.nsPrefix == self.eClass.ePackage.nsPrefix
+        and eObject.eClass.ePackage.name == self.eClass.ePackage.name) {
+        isSet = true;  
+    } else {
+        isSet = eObject.eIsSet(self);
+    }
     return isSet;
 }
 
@@ -85,9 +89,17 @@ operation M1!ecore::EAttribute getXsdType(){
        type = "xsd:long";
     } else if (self.eType.name.equals("EShort") or self.eType.name.equals("EShortObject")) {
        type = "xsd:short";
+    } else if (self.eType.name.equals("EJavaObject")) {
+       type = "xsd:string";
+    } else if (self.eType.name.equals("EJavaClass")) {
+       type = "xsd:string";
+    } else if (self.eType.name.equals("EEnumerator")) {
+       type = "xsd:string";
     } else if (self.eType.isTypeOf(M1!ecore::EEnum)) {
        type = self.eType.name;
-    } 
+    } else {
+        self.eType.println(" Unsupported Type ");
+    }
 //	EBoolean
 //	EByte
 //	EChar
@@ -122,6 +134,7 @@ operation M1!ecore::EAttribute getXsdType(){
 }
 
 //anyURI, base64Binary, boolean, date, dateTime, decimal, double, duration, float, hexBinary, gDay, gMonth, gMonthDay, gYear, gYearMonth, NOTATION, QName, string, and time
+
 //byte    Used to define a signed 8-bit integer.
 //decimal Used to define a decimal value.
 //int Used to define a signed 32-bit integer.
