@@ -11,11 +11,17 @@ operation getEResource() {
 
 operation getModelName(){
     var eResource = M2.getResource();
-    var path = eResource.getURI.toString;
-    var startIndex = path.lastIndexOf("/");
-    var endIndex = path.lastIndexOf(".");
-    var name = path.substring(startIndex + 1, endIndex);
-    name = name.replace("\\.", "");
+    var name = null;
+    if (eResource.getURI <> null) {
+	    var path = eResource.getURI.toString;
+	    var startIndex = path.lastIndexOf("/");
+	    var endIndex = path.lastIndexOf(".");
+	    name = path.substring(startIndex + 1, endIndex);
+	    name = name.replace("\\.", "");
+    } else {
+        var eObject = eResource.getContents.first;
+        name = eObject.eClass.ePackage.nsPrefix;
+    }
     return name;
 }
 
@@ -29,7 +35,16 @@ operation M2!ecore::EObject getName(){
     }
     if (self.eContainer != null) {
         name = self.eContainer.getName().firstToLowerCase + "_" + name.firstToLowerCase;
-    } 
+    }
+    if (self.eContainer <> null and self.eContainingFeature.isMany) {
+        var collection = self.eContainer.eGet(self.eContainingFeature);
+        if (collection.size > 0) {
+            var pos = collection.indexOf(self);
+//            name = name + "." + self.hashCode;
+            name = name + "_" + pos;
+        }
+    }
+     
     return name;
 }
 
@@ -100,6 +115,8 @@ operation M1!ecore::EAttribute getXsdType(){
     } else {
         self.eType.println(" Unsupported Type ");
     }
+    
+    return type;
 //	EBoolean
 //	EByte
 //	EChar
@@ -130,7 +147,6 @@ operation M1!ecore::EAttribute getXsdType(){
 //	EEnumerator
 //	EEList
 //	ETreeIterator
-    return type;
 }
 
 //anyURI, base64Binary, boolean, date, dateTime, decimal, double, duration, float, hexBinary, gDay, gMonth, gMonthDay, gYear, gYearMonth, NOTATION, QName, string, and time

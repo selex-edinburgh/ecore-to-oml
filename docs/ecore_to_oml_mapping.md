@@ -31,13 +31,21 @@ The list below describes the mapping of Ecore to OMF as wells some ***missing***
    `property.name = eClass.name  + "_" + eAttribute.name`
    
    **OML relation**:
+   
    containment relationship
+   
    `relation.name = eContainer.name + "_" + eReference.name + "_" + eObject.name`
+   
    reverse containment relationship
+   
    `relation.name = eObject.name + "_in_" + eReference.name + "_" + eContainer.name`
+   
    non-containment relationship
+   
    `relation.name = eObject1.name + "_" + eReference.name + "_" + eObject2.name`
+   
    opposite relationship
+   
    `relation.name = "rev_" + eObject2.name + "_" + eReference.name + "_" + eObject1.name`
    
    The `name` is the `name` property owned by the `eObject`. If an `eObject` doesn't have the property then the concatenation of the `eObject`'s class name and the index of the `eObject`  in the `eReference` is used.

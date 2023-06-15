@@ -81,18 +81,15 @@ class Ecore2OmlTest {
   }
   
   /***
-   * Test Modisco Java model to OML
+   * Test Ecore metamodel (and as a model) to OML
    * 
    * @throws Exception
    */
   @Test
   void testEcore2Oml() throws Exception {
 
-    File model = new File("model/Ecore.ecore");
-    File metamodel = new File("model/Ecore.ecore");
-
     Ecore2Oml ecore2oml = new Ecore2Oml();
-    ecore2oml.ecoreToOml(model, metamodel);
+    ecore2oml.ecoreToOml();
 
     // assert
     File omlVocabulary = new File(

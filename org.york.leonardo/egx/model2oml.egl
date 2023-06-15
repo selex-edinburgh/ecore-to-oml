@@ -8,7 +8,7 @@ if (nsPrefix.trim.length == 0)
 var nsUriVocabulary = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" + nsPrefix + "#";
 var nsUriDescription = "http://" + ePackage.getPathFromNsURI() + "/description/" + modelName + "#";
 var ePackageName = nsPrefix.toLowerCase;
-var uncontainedEObjects = Set{};
+var noResourceEObjects = Set{};
 
 %]
 @dc:description ""
@@ -49,8 +49,8 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
          var values = eObject.eGet(eReference); 
          for (value in values) {
            var valueName = value.getName();
-           if (value.eContainer == null) {
-             uncontainedEObjects.add(value);  
+           if (value.eResource == null) {
+             noResourceEObjects.add(value);  
            }
 //           if (eReference.isContainment) {
 //             valueName = value.eContainer.getName().firstToLowerCase + "_" + valueName;
@@ -62,8 +62,8 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
        } else if (eObject.eGet(eReference) <> null) {
          var value = eObject.eGet(eReference);
          var valueName = value.getName();
-         if (value.eContainer == null) {
-            uncontainedEObjects.add(value);  
+         if (value.eResource == null) {
+            noResourceEObjects.add(value);  
          }
 //         if (eReference.isContainment) {
 //           valueName = value.eContainer.getName().firstToLowerCase + "_" + valueName;
@@ -75,7 +75,7 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
   ]
        
 [% } %]
-[% for (eObject in uncontainedEObjects) { 
+[% for (eObject in noResourceEObjects) { 
     var name = eObject.getName();
     var eClass = eObject.eClass;
 %]
