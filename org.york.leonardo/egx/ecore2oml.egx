@@ -1,20 +1,27 @@
+/***
+
+M2 is metamodel
+M1 is model
+
+***/
+
 import "ecore2oml.eol";
  
 rule Metamodel2OML
-	transform  ePackage : M1!EPackage {
+	transform  ePackage : M2!EPackage {
 	
 	parameters : 
 	   Map {
 		"ePackage" = ePackage,
-		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(M1!ecore::EEnum)),
-		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(M1!ecore::EClass))
+		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(M2!ecore::EEnum)),
+		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(M2!ecore::EClass))
 	}
 	template : "metamodel2oml.egl"
 	target : "../../targetoml/src/oml/" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.name.firstToLowerCase + ".oml"
 }
 
 
-rule BaseOML transform  ePackage : M1!EPackage {
+rule BaseOML transform  ePackage : M2!EPackage {
 	
 	parameters : 
 	   Map {

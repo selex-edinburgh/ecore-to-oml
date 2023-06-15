@@ -19,12 +19,14 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import com.google.inject.Injector;
 import com.leonardo.lsaf.sadl.SADLStandaloneSetup;
 
+import io.opencaesar.oml.dsl.OmlStandaloneSetup;
+
 public class Ecore2Oml {
 
   public static void main(String[] args) throws Exception {
 
   }
-  
+
   /***
    * Transform XMI model and its metammodel to OML
    * 
@@ -64,11 +66,12 @@ public class Ecore2Oml {
   }
 
   /***
-   * Transform Ecore metamodel and as a model to OML. The built-in Ecore metamodel is used as the model and metamodel.
+   * Transform Ecore metamodel and as a model to OML. The built-in Ecore metamodel
+   * is used as the model and metamodel.
    * 
    * @throws Exception
    */
-  public void ecoreToOml() throws Exception {
+  public void builtInEcoreToOml() throws Exception {
 
     XMIResource resource = new XMIResourceImpl();
 
@@ -120,6 +123,52 @@ public class Ecore2Oml {
     module.getContext().getModelRepository().addModel(metamodel);
     module.getContext().getModelRepository().addModel(model);
     module.execute();
+  }
+  
+  /***
+   * Oml code to XMI model
+   * 
+   * @param sourceModelFile
+   * @param sourceMetamodelFile
+   * @throws Exception
+   */
+  public void omlCodeToOmlXmi(File sourceModelFile) throws Exception {
+
+    Injector injector = new OmlStandaloneSetup().createInjectorAndDoEMFRegistration();
+    XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(sourceModelFile.getAbsolutePath()), null);
+    omlResource.load(null);
+    
+    String path = omlResource.getURI().toFileString();
+    path = path.replace(".oml", ".xmi");
+    XMIResource xmiResouce = new XMIResourceImpl(URI.createFileURI(path));
+    xmiResouce.getContents().addAll(EcoreUtil.copyAll(omlResource.getContents()));
+    xmiResouce.save(null);
+    
+  }
+  
+  /***
+   * Oml XMI to Oml code
+   * 
+   * @param sourceModelFile
+   * @param sourceMetamodelFile
+   * @throws Exception
+   */
+  public void omlXmiToOmlCode(File sourceModelFile) throws Exception {
+
+    Injector injector = new OmlStandaloneSetup().createInjectorAndDoEMFRegistration();
+    XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+    
+    XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(sourceModelFile.getAbsolutePath()));
+    xmiResource.load(null);
+    String path = xmiResource.getURI().toFileString();
+    path = path.replace(".xmi", ".oml");
+    
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(path), null);
+    omlResource.getContents().addAll(EcoreUtil.copyAll(xmiResource.getContents()));
+    
+    omlResource.save(null);
+    
   }
 
 }

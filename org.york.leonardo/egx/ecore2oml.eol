@@ -1,3 +1,10 @@
+/***
+
+M2 is metamodel
+M1 is model
+
+***/
+
 operation getPathFromNsURI() {
     var eResource = M2.getResource();
     var eObject = eResource.getContents.first;
@@ -25,7 +32,7 @@ operation getModelName(){
     return name;
 }
 
-operation M2!ecore::EObject getName(){
+operation M1!ecore::EObject getName(){
     var name = null;
     if (self.eClass.getEStructuralFeature("name") <> null) {
         name = self.name; 
@@ -40,7 +47,6 @@ operation M2!ecore::EObject getName(){
         var collection = self.eContainer.eGet(self.eContainingFeature);
         if (collection.size > 0) {
             var pos = collection.indexOf(self);
-//            name = name + "." + self.hashCode;
             name = name + "_" + pos;
         }
     }
@@ -48,26 +54,26 @@ operation M2!ecore::EObject getName(){
     return name;
 }
 
-operation M1!ecore::EPackage getPathFromNsURI() {
+operation M2!ecore::EPackage getPathFromNsURI() {
     var uri = self.nsURI;
     uri = uri.replace("http://", "");
     uri = uri.replace("https://", "");
     return uri;
 }
 
-operation M1!ecore::EClass getParentClasses() {
+operation M2!ecore::EClass getParentClasses() {
     var parentNames = self.getESuperTypes.collect(s | s.name);
     var temp = parentNames.concat(", ");
     var names = (temp.length > 0)? ", " + temp : names;  
     return names;
 }
 
-operation M1!ecore::EEnum getLiterals() {
+operation M2!ecore::EEnum getLiterals() {
     var literals = "\"" + self.getELiterals.concat("\",\n\"") + "\"";   
     return literals;
 }
 
-operation M1!ecore::EStructuralFeature isSet(eObject) {
+operation M2!ecore::EStructuralFeature isSet(eObject) {
     var isSet = false;
     if (eObject.eClass.ePackage.nsURI == self.eClass.ePackage.nsURI
         and eObject.eClass.ePackage.nsPrefix == self.eClass.ePackage.nsPrefix
@@ -79,12 +85,12 @@ operation M1!ecore::EStructuralFeature isSet(eObject) {
     return isSet;
 }
 
-operation M1!ecore::EObject isSet(eStructuralFeature) {
+operation M2!ecore::EObject isSet(eStructuralFeature) {
     var isSet = self.eIsSet(eStructuralFeature); 
     return isSet;
 }
 
-operation M1!ecore::EAttribute getXsdType(){
+operation M2!ecore::EAttribute getXsdType(){
     var type = null;
     if (self.eType.name.equals("EString")) {
        type = "xsd:string";
@@ -110,7 +116,7 @@ operation M1!ecore::EAttribute getXsdType(){
        type = "xsd:string";
     } else if (self.eType.name.equals("EEnumerator")) {
        type = "xsd:string";
-    } else if (self.eType.isTypeOf(M1!ecore::EEnum)) {
+    } else if (self.eType.isTypeOf(M2!ecore::EEnum)) {
        type = self.eType.name;
     } else {
         self.eType.println(" Unsupported Type ");

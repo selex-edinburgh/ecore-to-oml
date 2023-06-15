@@ -9,6 +9,8 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -89,7 +91,7 @@ class Ecore2OmlTest {
   void testEcore2Oml() throws Exception {
 
     Ecore2Oml ecore2oml = new Ecore2Oml();
-    ecore2oml.ecoreToOml();
+    ecore2oml.builtInEcoreToOml();
 
     // assert
     File omlVocabulary = new File(
@@ -128,4 +130,38 @@ class Ecore2OmlTest {
     assertThat(omlResource.getContents().size()).isGreaterThan(0);
   }
 
+  /***
+   * Test OML code to OML XMI
+   * 
+   * @throws Exception
+   */
+  @Test
+  void testOmlCode2OmlXmi() throws Exception {
+
+    File model = new File("model/sADL.oml");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.omlCodeToOmlXmi(model);
+
+    // assert
+    XMIResource resource = new XMIResourceImpl(URI.createFileURI("model/sADL.xmi"));
+    resource.load(null);
+    assertThat(resource.getContents().size()).isGreaterThan(0);
+  }
+  
+  /***
+   * Test OML XMI to OML code
+   * 
+   * @throws Exception
+   */
+  @Test
+  void testOmlXmi2OmlCode() throws Exception {
+
+    File model = new File("model/sADL.xmi");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.omlXmiToOmlCode(model);
+
+    
+  }
 }
