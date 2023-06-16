@@ -1,0 +1,294 @@
+/***
+
+M2 is the source metamodel
+M1 is the source model
+B is the target base vocabulary
+V is the target main vocabulary
+D is the target description 
+
+***/
+
+import "../egx/ecore2oml.eol";
+
+operation M1!ecore::EObject getPropertyValue(value: Any, eAttribute: M1!ecore::EAttribute, vocabulary: V!Vocabulary): D!PropertyValueAssertion {
+	var propertyValue = new D!PropertyValueAssertion;
+
+	var propertyName = self.eClass.name.firstToLowerCase + "_" + eAttribute.name;
+	var scalarProperty = vocabulary.ownedStatements
+	    .selectOne(s | s.isTypeOf(V!ScalarProperty) and 
+	        s.name == propertyName);
+	propertyValue.property = scalarProperty;
+	
+	var quotedLiteral = new D!QuotedLiteral;
+	quotedLiteral.value = value;
+	propertyValue.literalValue = quotedLiteral;
+	
+	return propertyValue;
+}
+
+operation M1!ecore::EObject getPropertyValue(value: M1!ecore::EObject, eReference: M1!ecore::EReference, description: D!Description, vocabulary: V!Vocabulary): D!PropertyValueAssertion {
+	var propertyValue = new D!PropertyValueAssertion;
+	                    
+    var propertyName = self.eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase;
+    var scalarProperty = vocabulary.ownedStatements
+        .selectOne(s | s.isTypeOf(V!RelationEntity) and 
+            s.forwardRelation.name == propertyName);
+    propertyValue.property = scalarProperty.forwardRelation;
+    
+    var conceptName = value.getName();
+    var valueInstance = description.ownedStatements
+        .selectOne(s | s.isTypeOf(V!ConceptInstance) and 
+            s.name == conceptName);
+    propertyValue.namedInstanceValue = valueInstance;
+    
+    return propertyValue;
+}
+
+operation populateDescription(ePackage: M2!ecore::EPackage, description: D!Description, vocabulary: V!Vocabulary, base: B!Vocabulary) {
+
+    var modelName = getModelName();
+     
+    var eResource = M1.getResource();
+    var nsPrefix = ePackage.nsPrefix;
+    if (nsPrefix.trim.length == 0)
+        nsPrefix = ePackage.name;
+    var nsUriVocabulary = "http://" + ePackage.getPathFromNsURI() + "/vocabulary/" + nsPrefix + "#";
+    var nsUriDescription = "http://" + ePackage.getPathFromNsURI() + "/description/" + modelName + "#";
+    var ePackageName = nsPrefix.toLowerCase;
+
+    description.prefix = modelName;
+    description.namespace = nsUriDescription; 
+    
+    var dcImport = new D!Import;
+    dcImport.namespace = "http://purl.org/dc/elements/1.1/"; 
+    dcImport.prefix = "dc";
+    dcImport.kind = D!ImportKind#usage;
+    description.ownedImports.add(dcImport); 
+    
+    var vocabularyImport = new D!Import;
+    vocabularyImport.namespace = nsUriVocabulary; 
+    vocabularyImport.prefix = ePackageName;
+    vocabularyImport.kind = D!ImportKind#usage;
+    description.ownedImports.add(vocabularyImport);
+    
+    
+    //INSTANCES
+    for (eObject in eResource.getAllContents) {
+        var name = eObject.getName();
+        var eClass = eObject.eClass;
+        
+        var instance = new D!ConceptInstance;
+        instance.name = name;
+        
+        description.ownedStatements.add(instance);
+    }
+    
+    // OTHERS
+    for (eObject in eResource.getAllContents) {
+        var name = eObject.getName();
+        var eClass = eObject.eClass;
+        
+        var instance = D!ConceptInstance.all.selectOne(c | c.name == eObject.getName());
+
+        // ATTRIBUTES
+        for (eAttribute in eClass.eAttributes) { 
+            if (not eObject.isSet(eAttribute)){
+               continue;
+            }
+           
+            if (eAttribute.isMany) {
+                var values = eObject.eGet(eAttribute); 
+                for (value in values) {              
+                    var value = eObject.eGet(eAttribute);
+                    var propertyValue = eObject.getPropertyValue(value, eAttribute, vocabulary);
+                    instance.ownedPropertyValues.add(propertyValue);
+                }
+               
+            } else if (eObject.eGet(eAttribute) <> null) {
+                var value = eObject.eGet(eAttribute);
+                var propertyValue = eObject.getPropertyValue(value, eAttribute, vocabulary);
+                instance.ownedPropertyValues.add(propertyValue);
+            }
+        }
+        
+        // REFERENCES
+        for (eReference in eClass.eReferences) { 
+            if (not eObject.isSet(eReference)){
+               continue;
+            }
+           
+            if (eReference.isMany) {
+                var values = eObject.eGet(eReference); 
+                for (value in values) {
+	                var propertyValue = eObject.getPropertyValue(value, eReference, description, vocabulary);
+	                instance.ownedPropertyValues.add(propertyValue);
+                }
+            } else if (eObject.eGet(eReference) <> null) {
+                var value = eObject.eGet(eReference);
+                var propertyValue = eObject.getPropertyValue(value, eReference, description, vocabulary);
+                instance.ownedPropertyValues.add(propertyValue);
+            }
+        }
+    }
+}
+
+
+/***
+
+*/
+operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabulary, base: B!Vocabulary)  {
+
+    var aspect = base.ownedStatements.selectOne(s | s.isTypeOf(B!Aspect) and s.name == "IdentifiedThing");
+    
+    //create vocabulary 
+    vocabulary.prefix = ePackage.nsPrefix;
+    vocabulary.namespace = ePackage.nsURI + "#";
+    
+    var rdfImport = new V!Import;
+    rdfImport.namespace = "http://www.w3.org/2000/01/rdf-schema#"; 
+    rdfImport.prefix = "rdf";
+    vocabulary.ownedImports.add(rdfImport);  
+    
+    var xsdImport = new V!Import;
+    xsdImport.namespace = "http://www.w3.org/2001/XMLSchema#"; 
+    xsdImport.prefix = "xsd";
+    vocabulary.ownedImports.add(xsdImport);
+    
+    var baseImport = new V!Import;
+    baseImport.namespace = ePackage.nsURI + "/vocabulary/base#"; 
+    baseImport.prefix = "base";
+    vocabulary.ownedImports.add(baseImport);
+    
+    // EENum
+    for (eNum in M2!EEnum.all){
+        var scalar = new V!Scalar;
+        scalar.name = eNum.name;
+        vocabulary.ownedStatements.add(scalar); 
+    }
+    
+    // EClass
+    for (eClass in M2!EClass.all){
+        var concept = new V!Concept;
+        concept.name = eClass.name;
+        vocabulary.ownedStatements.add(concept);
+    }
+    
+    // specialization axioms
+    for (eClass in M2!EClass.all){
+        
+        var concept = V!Concept.all.selectOne( c | c.name == eClass.name); 
+        var identifiedThing = new V!SpecializationAxiom;
+        identifiedThing.superTerm = aspect;
+        concept.ownedSpecializations.add(identifiedThing);
+        
+        
+        var concept = V!Concept.all.selectOne( c | c.name == eClass.name);
+        for (eSuperType in eClass.getESuperTypes) {
+            var superConcept = V!Concept.all.selectOne( c | c.name == eSuperType.name); 
+            var specialization = new V!SpecializationAxiom;
+            specialization.superTerm = superConcept;
+            concept.ownedSpecializations.add(specialization);
+        }
+    }
+    
+    // Others
+    for (eClass in M2!EClass.all){
+
+        var concept = V!Concept.all.selectOne( c | c.name == eClass.name);
+        
+        // EAttribute
+        for (eAttribute in eClass.eAttributes){
+        
+            var scalarProperty = new V!ScalarProperty;
+            scalarProperty.name = eClass.name.firstToLowerCase + "_" + eAttribute.name;
+            scalarProperty.getDomainList.add(concept);
+        
+            var range = eAttribute.getXsdType();
+            scalarProperty.getRangeList.add(range);
+            vocabulary.ownedStatements.add(scalarProperty);
+            
+            scalarProperty.functional = true;
+        }
+        
+        // EReference
+        for (eReference in eClass.eReferences){
+            
+            var relationEntity = new V!RelationEntity;
+            relationEntity.name = eClass.name + "_" + eReference.name + "_" + eReference.eType.name;
+            
+            relationEntity.sources.add(concept);
+            
+            var targetConcept = V!Concept.all.selectOne( c | c.name == eReference.eType.name);
+            relationEntity.targets.add(targetConcept);
+            
+            var forwardRelation = new V!ForwardRelation;
+            forwardRelation.name = eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase;
+            relationEntity.forwardRelation = forwardRelation;
+            
+            var reverseRelation = new V!ReverseRelation;
+            relationEntity.reverseRelation = reverseRelation;
+            if (eReference.eOpposite <> null) {
+              reverseRelation.name = "rev_" + eReference.eType.name.firstToLowerCase + "_" + eReference.eOpposite.name + "_" + eClass.name.firstToLowerCase;    
+            } else if (eReference.isContainment) {
+              reverseRelation.name = eReference.eType.name.firstToLowerCase + "_in_" + eReference.name + "_" + eClass.name.firstToLowerCase;
+            }
+                            
+            if (eReference.eOpposite <> null or eReference.isContainment) {
+              relationEntity.symmetric = true;
+              relationEntity.asymmetric = false;        
+            } else {
+              relationEntity.symmetric = false; 
+              relationEntity.asymmetric = true;
+            } 
+            
+            if (not eReference.isMany) { 
+              relationEntity.functional = true;
+            } else {
+              relationEntity.functional = false;
+            }
+            
+            if (eReference.eOpposite <> null and not eReference.eOpposite.isMany) {
+              relationEntity.inverseFunctional = true;
+            } else {
+              relationEntity.inverseFunctional = false;
+            }
+
+            if (eReference.isContainment) {
+              relationEntity.irreflexive = true;
+            } else {
+              relationEntity.irreflexive = false;
+            }
+            
+            if (eReference.eType.equals(eClass)) { 
+              relationEntity.reflexive = false;
+            } else {
+              relationEntity.transitive = true;
+            } 
+            
+            relationEntity.transitive = true;
+            
+
+            vocabulary.ownedStatements.add(relationEntity);
+        }
+    }   
+}
+
+operation populateBase(ePackage: M2!ecore::EPackage, base: B!Vocabulary) {
+    //create base
+    base.prefix = "base";
+    base.namespace = ePackage.nsURI + "/vocabulary/base#"; 
+    
+    var rdfImport = new B!Import;
+    rdfImport.namespace = "http://www.w3.org/2000/01/rdf-schema#"; 
+    rdfImport.prefix = "rdf";
+    base.ownedImports.add(rdfImport);  
+    
+    var xsdImport = new B!Import;
+    xsdImport.namespace = "http://www.w3.org/2001/XMLSchema#"; 
+    xsdImport.prefix = "xsd";
+    base.ownedImports.add(xsdImport);
+    
+    var aspect = new B!Aspect;
+    aspect.name = "IdentifiedThing";
+    base.ownedStatements.add(aspect);
+}

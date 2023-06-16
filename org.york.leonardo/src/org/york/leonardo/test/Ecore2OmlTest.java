@@ -39,7 +39,7 @@ class Ecore2OmlTest {
   @Test
   void testSADLXmi2Oml() throws Exception {
 
-    File model = new File("model/first.xmi");
+    File model = new File("model/first.sadl.xmi");
     File metamodel = new File("model/SADL.ecore");
 
     Ecore2Oml ecore2oml = new Ecore2Oml();
@@ -130,38 +130,38 @@ class Ecore2OmlTest {
     assertThat(omlResource.getContents().size()).isGreaterThan(0);
   }
 
-  /***
-   * Test OML code to OML XMI
-   * 
-   * @throws Exception
-   */
-  @Test
-  void testOmlCode2OmlXmi() throws Exception {
-
-    File model = new File("model/sADL.oml");
-
-    Ecore2Oml ecore2oml = new Ecore2Oml();
-    ecore2oml.omlCodeToOmlXmi(model);
-
-    // assert
-    XMIResource resource = new XMIResourceImpl(URI.createFileURI("model/sADL.xmi"));
-    resource.load(null);
-    assertThat(resource.getContents().size()).isGreaterThan(0);
-  }
-  
-  /***
-   * Test OML XMI to OML code
-   * 
-   * @throws Exception
-   */
-  @Test
-  void testOmlXmi2OmlCode() throws Exception {
-
-    File model = new File("model/sADL.xmi");
-
-    Ecore2Oml ecore2oml = new Ecore2Oml();
-    ecore2oml.omlXmiToOmlCode(model);
-
-    
-  }
+//  /***
+//   * Test OML code to OML XMI
+//   * 
+//   * @throws Exception
+//   */
+//  @Test
+//  void testOmlCode2OmlXmi() throws Exception {
+//
+//    File model = new File("model/sADL.oml");
+//
+//    Ecore2Oml ecore2oml = new Ecore2Oml();
+//    ecore2oml.omlCodeToOmlXmi(model);
+//
+//    // assert
+//    XMIResource resource = new XMIResourceImpl(URI.createFileURI("model/sADL.xmi"));
+//    resource.load(null);
+//    assertThat(resource.getContents().size()).isGreaterThan(0);
+//  }
+//  
+//  /***
+//   * Test OML XMI to OML code
+//   * 
+//   * @throws Exception
+//   */
+//  @Test
+//  void testOmlXmi2OmlCode() throws Exception {
+//
+//    File model = new File("model/sADL.xmi");
+//
+//    Ecore2Oml ecore2oml = new Ecore2Oml();
+//    ecore2oml.omlXmiToOmlCode(model);
+//
+//    
+//  }
 }

@@ -17,7 +17,7 @@ operation getEResource() {
 }
 
 operation getModelName(){
-    var eResource = M2.getResource();
+    var eResource = M1.getResource();
     var name = null;
     if (eResource.getURI <> null) {
 	    var path = eResource.getURI.toString;

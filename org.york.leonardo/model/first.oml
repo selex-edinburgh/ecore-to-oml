@@ -1,12 +1,100 @@
-vocabulary <http://test#> as test {
+@dc:description ""
+description <http://www.leonardo.com/lsaf/sadl/SADL/description/first#> as first {
+  uses <http://purl.org/dc/elements/1.1/> as dc
+  uses <http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL#> as sadl
 
-	concept c
 
-	aspect a
 
-	relation entity R [
-		from c
-		to a
-		forward r
-	]
+  instance model : sadl:Model [
+    sadl:model_package_package model_first_0
+  ]
+       
+  instance model_first_0 : sadl:Package [
+    sadl:package_name "first"
+    sadl:package_contents_packageableElement model_first_0_real_0
+    sadl:package_contents_packageableElement model_first_0_integer_1
+    sadl:package_contents_packageableElement model_first_0_first_2
+    sadl:package_contents_packageableElement model_first_0_second_3
+    sadl:package_contents_packageableElement model_first_0_eFirst_4
+    sadl:package_contents_packageableElement model_first_0_iFirst_5
+    sadl:package_contents_packageableElement model_first_0_cFirst_6
+  ]
+       
+  instance model_first_0_real_0 : sadl:Primitive [
+  ]
+       
+  instance model_first_0_integer_1 : sadl:Primitive [
+  ]
+       
+  instance model_first_0_first_2 : sadl:Topic [
+    sadl:topic_attributes_attribute model_first_0_first_2_attr1_0
+    sadl:topic_attributes_attribute model_first_0_first_2_attr2_1
+    sadl:topic_attributes_attribute model_first_0_first_2_attr3_2
+    sadl:topic_attributes_attribute model_first_0_first_2_attr4_3
+  ]
+       
+  instance model_first_0_first_2_attr1_0 : sadl:Attribute [
+    sadl:attribute_name "attr1"
+    sadl:attribute_type_type model_first_0_real_0
+  ]
+       
+  instance model_first_0_first_2_attr2_1 : sadl:Attribute [
+    sadl:attribute_name "attr2"
+    sadl:attribute_type_type model_first_0_integer_1
+  ]
+       
+  instance model_first_0_first_2_attr3_2 : sadl:Attribute [
+    sadl:attribute_name "attr3"
+    sadl:attribute_type_type model_first_0_second_3
+  ]
+       
+  instance model_first_0_first_2_attr4_3 : sadl:Attribute [
+    sadl:attribute_name "attr4"
+    sadl:attribute_type_type model_first_0_eFirst_4
+  ]
+       
+  instance model_first_0_second_3 : sadl:Topic [
+  ]
+       
+  instance model_first_0_eFirst_4 : sadl:Enumeration [
+    sadl:enumeration_enumerators_enumerator model_first_0_eFirst_4_one_0
+    sadl:enumeration_enumerators_enumerator model_first_0_eFirst_4_two_1
+    sadl:enumeration_enumerators_enumerator model_first_0_eFirst_4_three_2
+  ]
+       
+  instance model_first_0_eFirst_4_one_0 : sadl:Enumerator [
+    sadl:enumerator_name "one"
+  ]
+       
+  instance model_first_0_eFirst_4_two_1 : sadl:Enumerator [
+    sadl:enumerator_name "two"
+  ]
+       
+  instance model_first_0_eFirst_4_three_2 : sadl:Enumerator [
+    sadl:enumerator_name "three"
+  ]
+       
+  instance model_first_0_iFirst_5 : sadl:Interface [
+    sadl:interface_ports_port model_first_0_iFirst_5_a_0
+    sadl:interface_ports_port model_first_0_iFirst_5_b_1
+  ]
+       
+  instance model_first_0_iFirst_5_a_0 : sadl:TopicPort [
+    sadl:topicPort_type_topic model_first_0_first_2
+  ]
+       
+  instance model_first_0_iFirst_5_b_1 : sadl:TopicPort [
+    sadl:topicPort_type_topic model_first_0_second_3
+  ]
+       
+  instance model_first_0_cFirst_6 : sadl:Component [
+    sadl:component_ports_port model_first_0_cFirst_6_a_0
+  ]
+       
+  instance model_first_0_cFirst_6_a_0 : sadl:InterfacePort [
+    sadl:interfacePort_type_interface model_first_0_iFirst_5
+  ]
+       
+
 }
+

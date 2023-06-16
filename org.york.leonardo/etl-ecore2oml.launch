@@ -3,8 +3,11 @@
     <booleanAttribute key="fine_grained_profiling" value="false"/>
     <stringAttribute key="implementation_name" value="Parallel (Declarative operations)"/>
     <listAttribute key="models">
+        <listEntry value="aliases=M1&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;modelFile=/org.york.leonardo/model/first.sadl.xmi&#10;metamodelUri=&#10;concurrent=false&#10;type=EMF&#10;readOnLoad=true&#10;storeOnDisposal=true&#10;expand=true&#10;fileBasedMetamodelUri=platform\:/resource/org.york.leonardo/model/SADL.ecore&#10;metamodelFile=/org.york.leonardo/model/SADL.ecore&#10;cached=true&#10;name=M1&#10;modelUri=platform\:/resource/org.york.leonardo/model/first.sadl.xmi&#10;isMetamodelFileBased=true&#10;validate=false"/>
         <listEntry value="aliases=M2&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;modelFile=/org.york.leonardo/model/SADL.ecore&#10;metamodelUri=http\://www.eclipse.org/emf/2002/Ecore&#10;concurrent=false&#10;type=EMF&#10;readOnLoad=true&#10;storeOnDisposal=true&#10;expand=true&#10;fileBasedMetamodelUri=&#10;metamodelFile=&#10;cached=true&#10;name=M2&#10;modelUri=platform\:/resource/org.york.leonardo/model/SADL.ecore&#10;isMetamodelFileBased=false&#10;validate=false"/>
-        <listEntry value="aliases=V&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;modelFile=/org.york.leonardo/etl/target.model&#10;metamodelUri=http\://opencaesar.io/oml&#10;concurrent=false&#10;type=EMF&#10;readOnLoad=false&#10;storeOnDisposal=true&#10;expand=true&#10;fileBasedMetamodelUri=&#10;metamodelFile=&#10;cached=true&#10;name=V&#10;modelUri=platform\:/resource/org.york.leonardo/etl/target.model&#10;isMetamodelFileBased=false&#10;validate=false"/>
+        <listEntry value="aliases=B&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;modelFile=/org.york.leonardo/etl/base.xmi&#10;metamodelUri=http\://opencaesar.io/oml&#10;concurrent=false&#10;type=EMF&#10;readOnLoad=false&#10;storeOnDisposal=true&#10;expand=true&#10;fileBasedMetamodelUri=&#10;metamodelFile=&#10;cached=true&#10;name=B&#10;modelUri=platform\:/resource/org.york.leonardo/etl/base.xmi&#10;isMetamodelFileBased=false&#10;validate=false"/>
+        <listEntry value="aliases=D&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;modelFile=/org.york.leonardo/etl/description.xmi&#10;metamodelUri=http\://opencaesar.io/oml&#10;concurrent=false&#10;type=EMF&#10;readOnLoad=false&#10;storeOnDisposal=true&#10;expand=true&#10;fileBasedMetamodelUri=&#10;metamodelFile=&#10;cached=true&#10;name=D&#10;modelUri=platform\:/resource/org.york.leonardo/etl/description.xmi&#10;isMetamodelFileBased=false&#10;validate=false"/>
+        <listEntry value="aliases=V&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;modelFile=/org.york.leonardo/etl/vocabulary.xmi&#10;metamodelUri=http\://opencaesar.io/oml&#10;concurrent=false&#10;type=EMF&#10;readOnLoad=false&#10;storeOnDisposal=true&#10;expand=true&#10;fileBasedMetamodelUri=&#10;metamodelFile=&#10;cached=true&#10;name=V&#10;modelUri=platform\:/resource/org.york.leonardo/etl/vocabulary.xmi&#10;isMetamodelFileBased=false&#10;validate=false"/>
     </listAttribute>
     <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <intAttribute key="parallelism" value="15"/>
@@ -12,5 +15,5 @@
     <booleanAttribute key="profile_model_loading" value="false"/>
     <booleanAttribute key="profiling_enabled" value="false"/>
     <booleanAttribute key="reset_profiler" value="false"/>
-    <stringAttribute key="source" value="/org.york.leonardo/etl/metamodel2oml.etl"/>
+    <stringAttribute key="source" value="/org.york.leonardo/etl/ecore2oml.etl"/>
 </launchConfiguration>

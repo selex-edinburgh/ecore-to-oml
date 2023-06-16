@@ -39,7 +39,7 @@ public class Ecore2Oml {
 
     EmfModel metamodel = new EmfModel();
     metamodel.setModelFile(sourceMetamodelFile.getAbsolutePath());
-    metamodel.setName("M1");
+    metamodel.setName("M2");
     metamodel.load();
 
     org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI
@@ -53,7 +53,7 @@ public class Ecore2Oml {
 
     EmfModel model = new EmfModel();
     model.setModelFile(sourceModelFile.getAbsolutePath());
-    model.setName("M2");
+    model.setName("M1");
     model.load();
 
     File egxFile = new File("egx/ecore2oml.egx");
@@ -80,10 +80,10 @@ public class Ecore2Oml {
     resource.getContents().addAll(EcoreUtil.copyAll(internalEcoreResource.getContents()));
 
     EmfModel metamodel = new InMemoryEmfModel(resource);
-    metamodel.setName("M1");
+    metamodel.setName("M2");
 
     EmfModel model = new InMemoryEmfModel(resource);
-    model.setName("M2");
+    model.setName("M1");
 
     File egxFile = new File("egx/ecore2oml.egx");
     EgxModule module = new EgxModule(new EglFileGeneratingTemplateFactory());
@@ -105,7 +105,7 @@ public class Ecore2Oml {
 
     EmfModel metamodel = new EmfModel();
     metamodel.setModelFile(sourceMetamodelFile.getAbsolutePath());
-    metamodel.setName("M1");
+    metamodel.setName("M2");
     metamodel.load();
 
     Injector injector = new SADLStandaloneSetup().createInjectorAndDoEMFRegistration();
@@ -114,7 +114,7 @@ public class Ecore2Oml {
     resource.load(null);
 
     EmfModel model = new InMemoryEmfModel(resource);
-    model.setName("M2");
+    model.setName("M1");
 
     File egxFile = new File("egx/ecore2oml.egx");
     EgxModule module = new EgxModule(new EglFileGeneratingTemplateFactory());

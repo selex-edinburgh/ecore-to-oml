@@ -1,0 +1,16 @@
+import "ecore2oml.etl.eol";
+
+@primary
+rule Ecore2OML 
+    transform ePackage : M2!EPackage 
+    to base : B!Vocabulary, vocabulary : V!Vocabulary, 
+        description : D!Description {
+
+    populateBase(ePackage, base);
+    
+    populateVocabulary(ePackage, vocabulary, base);
+	
+	populateDescription(ePackage, description, vocabulary, base); 
+    
+    "Ecore2OML completed!".println;
+}
