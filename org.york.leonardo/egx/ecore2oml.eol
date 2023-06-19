@@ -24,7 +24,6 @@ operation getModelName(){
 	    var startIndex = path.lastIndexOf("/");
 	    var endIndex = path.lastIndexOf(".");
 	    name = path.substring(startIndex + 1, endIndex);
-	    name.println;
     } else {
         var eObject = eResource.getContents.first;
         name = eObject.eClass.ePackage.nsPrefix;

@@ -22,6 +22,7 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leonardo/pom.properties
 /org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leonardo/pom.properties
 /org.york.leonardo/.gradle/8.1.1/checksums
 /org.york.leonardo/.gradle/8.1.1/executionHistory

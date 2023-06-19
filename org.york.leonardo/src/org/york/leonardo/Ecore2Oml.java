@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.emc.emf.CachedResourceSet;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -28,6 +27,8 @@ import com.leonardo.lsaf.sadl.SADLStandaloneSetup;
 import io.opencaesar.oml.dsl.OmlStandaloneSetup;
 
 public class Ecore2Oml {
+
+  private static String TARGET_DIR = "../targetoml/src/oml/";
 
   private Map<String, String> dependencies = new HashMap<>();
 
@@ -47,17 +48,27 @@ public class Ecore2Oml {
    * @throws Exception
    */
   public void sadlToOmlUsingETL(File sourceModelFile, File sourceMetamodelFile) throws Exception {
-    File baseFile = new File("etl/base.oml");
-    if (!baseFile.exists()) baseFile.createNewFile();
-    File vocabularyFile = new File("etl/vocabulary.oml");
-    if (!vocabularyFile.exists()) vocabularyFile.createNewFile();
-    File descriptionFile = new File("etl/description.oml");
-    if (!descriptionFile.exists()) descriptionFile.createNewFile();
 
     EmfModel sadlMetamodel = new EmfModel();
     sadlMetamodel.setModelFile(sourceMetamodelFile.getAbsolutePath());
     sadlMetamodel.setName("M2");
     sadlMetamodel.load();
+    EPackage ePackage = (EPackage) sadlMetamodel.getResource().getContents().get(0);
+    String nsPrefix = (ePackage.getNsPrefix() != null) ? ePackage.getNsPrefix() : ePackage.getName();
+
+    String nsUri = ePackage.getNsURI();
+    String baseNsUri = nsUri + "/vocabulary/base.oml";
+    String vocabularyNsUri = nsUri + "/vocabulary/" + nsPrefix + ".oml";
+    String descriptionName = sourceModelFile.getName().substring(0, sourceModelFile.getName().lastIndexOf("."));
+    String descriptionNsUri = nsUri + "/description/" + descriptionName + ".oml";
+
+    URI baseUri = URI.createURI(baseNsUri);
+    URI vocabularyUri = URI.createURI(vocabularyNsUri);
+    URI descriptionUri = URI.createURI(descriptionNsUri);
+
+    File baseFile = createTargetFile(baseUri);
+    File vocabularyFile = createTargetFile(vocabularyUri);
+    File descriptionFile = createTargetFile(descriptionUri);
 
     Injector sadlInjector = new SADLStandaloneSetup().createInjectorAndDoEMFRegistration();
     XtextResourceSet sadlResourceSet = sadlInjector.getInstance(XtextResourceSet.class);
@@ -70,7 +81,7 @@ public class Ecore2Oml {
     // initialise oml models
     Injector omlInjector = new OmlStandaloneSetup().createInjectorAndDoEMFRegistration();
     XtextResourceSet omfResourceSet = omlInjector.getInstance(XtextResourceSet.class);
-    
+
     // target model
     Resource baseResource = omfResourceSet.createResource(URI.createFileURI(baseFile.getAbsolutePath()), null);
     EmfModel baseModel = new InMemoryEmfModel(baseResource);
@@ -104,11 +115,36 @@ public class Ecore2Oml {
 
     // execute model
     module.execute();
-    
+
     // save
     baseModel.store();
     vocabularyModel.store();
     descriptionModel.store();
+  }
+
+  private File createTargetFile(URI vocabularyUri) throws IOException {
+    String targetPath = TARGET_DIR + vocabularyUri.authority();
+    File targetDir = new File(targetPath);
+    if (!targetDir.exists()) {
+      targetDir.mkdir();
+    }
+
+    for (int i = 0; i < vocabularyUri.segments().length; i++) {
+      String segment = vocabularyUri.segments()[i];
+      targetPath = targetPath + "/" + segment;
+      targetDir = new File(targetPath);
+      if (i < vocabularyUri.segments().length - 1) {
+        if (!targetDir.exists()) {
+          targetDir.mkdir();
+        }
+      } else {
+        if (!targetDir.exists()) {
+          targetDir.createNewFile();
+        }
+      }
+
+    }
+    return targetDir;
   }
 
   private void loadDependencies(XtextResourceSet omfResourceSet, EtlModule module) throws IOException {

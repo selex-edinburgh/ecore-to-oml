@@ -143,7 +143,6 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
     //create vocabulary 
     vocabulary.namespace = ePackage.nsURI + "/vocabulary/" + ePackage.nsPrefix + "#";
     vocabulary.prefix = ePackage.nsPrefix;
-    vocabulary.namespace.println;
     
     var rdfImport = new V!Import;
     rdfImport.namespace = "http://www.w3.org/2000/01/rdf-schema#"; 
