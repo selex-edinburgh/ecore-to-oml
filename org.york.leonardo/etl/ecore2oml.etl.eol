@@ -141,8 +141,9 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
     var aspect = base.ownedStatements.selectOne(s | s.isTypeOf(B!Aspect) and s.name == "IdentifiedThing");
     
     //create vocabulary 
+    vocabulary.namespace = ePackage.nsURI + "/vocabulary/" + ePackage.nsPrefix + "#";
     vocabulary.prefix = ePackage.nsPrefix;
-    vocabulary.namespace = ePackage.nsURI + "#";
+    vocabulary.namespace.println;
     
     var rdfImport = new V!Import;
     rdfImport.namespace = "http://www.w3.org/2000/01/rdf-schema#"; 
@@ -176,13 +177,12 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
     // specialization axioms
     for (eClass in M2!EClass.all){
         
-        var concept = V!Concept.all.selectOne( c | c.name == eClass.name); 
+        var concept = V!Concept.all.selectOne( c | c.name == eClass.name);
+        
         var identifiedThing = new V!SpecializationAxiom;
         identifiedThing.superTerm = aspect;
         concept.ownedSpecializations.add(identifiedThing);
         
-        
-        var concept = V!Concept.all.selectOne( c | c.name == eClass.name);
         for (eSuperType in eClass.getESuperTypes) {
             var superConcept = V!Concept.all.selectOne( c | c.name == eSuperType.name); 
             var specialization = new V!SpecializationAxiom;
@@ -204,7 +204,10 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
             scalarProperty.getDomainList.add(concept);
         
             var range = eAttribute.getXsdType();
-            scalarProperty.getRangeList.add(range);
+            var name = range.split(":")[1];
+            
+            var scalar = xsd!Scalar.all.selectOne(s | s.name == name);
+            scalarProperty.ranges.add(scalar);
             vocabulary.ownedStatements.add(scalarProperty);
             
             scalarProperty.functional = true;
@@ -224,15 +227,20 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
             var forwardRelation = new V!ForwardRelation;
             forwardRelation.name = eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase;
             relationEntity.forwardRelation = forwardRelation;
-            
+
             var reverseRelation = new V!ReverseRelation;
-            relationEntity.reverseRelation = reverseRelation;
+          
             if (eReference.eOpposite <> null) {
-              reverseRelation.name = "rev_" + eReference.eType.name.firstToLowerCase + "_" + eReference.eOpposite.name + "_" + eClass.name.firstToLowerCase;    
+              reverseRelation.name = eReference.eType.name.firstToLowerCase + "_rev_" + eReference.eOpposite.name + "_" + eClass.name.firstToLowerCase;    
             } else if (eReference.isContainment) {
               reverseRelation.name = eReference.eType.name.firstToLowerCase + "_in_" + eReference.name + "_" + eClass.name.firstToLowerCase;
+            } else {
+              reverseRelation.name = eReference.eType.name.firstToLowerCase + "_ref_" + eReference.name + "_" + eClass.name.firstToLowerCase;
             }
-                            
+            relationEntity.reverseRelation = reverseRelation;
+
+
+                           
             if (eReference.eOpposite <> null or eReference.isContainment) {
               relationEntity.symmetric = true;
               relationEntity.asymmetric = false;        
@@ -264,7 +272,7 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
             } else {
               relationEntity.transitive = true;
             } 
-            
+//            
             relationEntity.transitive = true;
             
 

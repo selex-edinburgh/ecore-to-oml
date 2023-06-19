@@ -26,7 +26,7 @@ vocabulary <http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL#> as sADL {
   @rdfs:comment ""
   scalar property package_name [
     domain Package
-    range xsd:string
+    range "xsd:string"
     functional
   ]
   @rdfs:comment ""

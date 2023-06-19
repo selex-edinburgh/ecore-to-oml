@@ -1,6 +1,13 @@
+/**
+M2 is the source metamodel
+M1 is the source model
+B is the target base vocabulary
+V is the target main vocabulary
+D is the target description 
+*/
+
 import "ecore2oml.etl.eol";
 
-@primary
 rule Ecore2OML 
     transform ePackage : M2!EPackage 
     to base : B!Vocabulary, vocabulary : V!Vocabulary, 

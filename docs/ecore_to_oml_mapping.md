@@ -28,6 +28,7 @@ The list below describes the mapping of Ecore to OMF as wells some ***missing***
    **Solution**. A naming mechanism should be developed to make unique names for the target relations. The unique-naming mechanism should also apply to the mapping of `EAttribute` to  `Property`,  as OML properties are also defined outside concepts; they can be reused in multiple concepts. For example:
    
    **OML Property**:
+   
    `property.name = eClass.name  + "_" + eAttribute.name`
    
    **OML relation**:

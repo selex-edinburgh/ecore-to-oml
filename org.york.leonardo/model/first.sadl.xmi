@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<sADL:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sADL="http://www.leonardo.com/lsaf/sadl/SADL" xsi:schemaLocation="http://www.leonardo.com/lsaf/sadl/SADL SADL.ecore#/0">
+<sADL:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sADL="http://www.leonardo.com/lsaf/sadl/SADL">
   <package name="first">
     <contents xsi:type="sADL:Primitive" name="real"/>
     <contents xsi:type="sADL:Primitive" name="integer"/>

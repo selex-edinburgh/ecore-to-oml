@@ -9,8 +9,6 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,6 +16,8 @@ import org.york.leonardo.Ecore2Oml;
 
 import com.google.inject.Injector;
 
+import io.opencaesar.oml.Description;
+import io.opencaesar.oml.Vocabulary;
 import io.opencaesar.oml.dsl.OmlStandaloneSetup;
 
 class Ecore2OmlTest {
@@ -31,6 +31,36 @@ class Ecore2OmlTest {
     injector = omlSetup.createInjectorAndDoEMFRegistration();
   }
 
+  /***
+   * Test sADL model from XMI to OML
+   * 
+   * @throws Exception
+   */
+  @Test
+  void testSADLXmi2OmlUsingETL() throws Exception {
+
+    File model = new File("model/first.sadl.xmi");
+    File metamodel = new File("model/SADL.ecore");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.getDependencies().put("rdf", "http://www.w3.org/2000/01/rdf-schema#");
+    ecore2oml.getDependencies().put("xsd", "http://www.w3.org/2001/XMLSchema#");
+    ecore2oml.getDependencies().put("dc", "http://purl.org/dc/elements/1.1/");
+    ecore2oml.sadlToOmlUsingETL(model, metamodel);
+
+    // assert
+    XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File("etl/vocabulary.oml").getAbsolutePath()), null);
+    omlResource.load(null);
+    Vocabulary vocabulary = (Vocabulary)  omlResource.getContents().get(0);
+    assertThat(vocabulary.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL");
+    
+    omlResource = resourceSet.createResource(URI.createFileURI(new File("etl/description.oml").getAbsolutePath()), null);
+    omlResource.load(null);
+    Description description = (Description)  omlResource.getContents().get(0);
+    assertThat(description.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/description/first.sadl");
+  }
+  
   /***
    * Test sADL model from XMI to OML
    * 

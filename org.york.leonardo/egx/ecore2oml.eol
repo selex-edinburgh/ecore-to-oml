@@ -6,13 +6,13 @@ M1 is model
 ***/
 
 operation getPathFromNsURI() {
-    var eResource = M2.getResource();
+    var eResource = M1.getResource();
     var eObject = eResource.getContents.first;
     return eObject.eClass.ePackage.getPathFromNsURI();
 }
 
 operation getEResource() {
-    var eResource = M2.getResource();
+    var eResource = M1.getResource();
     return eResource;
 }
 
@@ -24,7 +24,7 @@ operation getModelName(){
 	    var startIndex = path.lastIndexOf("/");
 	    var endIndex = path.lastIndexOf(".");
 	    name = path.substring(startIndex + 1, endIndex);
-	    name = name.replace("\\.", "");
+	    name.println;
     } else {
         var eObject = eResource.getContents.first;
         name = eObject.eClass.ePackage.nsPrefix;
