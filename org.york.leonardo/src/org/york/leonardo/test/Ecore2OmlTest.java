@@ -9,6 +9,8 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,14 +34,44 @@ class Ecore2OmlTest {
   }
 
   /***
-   * Test sADL model from XMI to OML
+   * Test transforming Modisco Java model/metamodel to OML
+   * 
+   * @throws Exception
+   */
+  @Test
+  void testXmi2OmlUsingETL() throws Exception {
+
+    File model = new File("model/java.xmi");
+    File metamodel = new File("model/java.ecore");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.getDependencies().put("rdf", "http://www.w3.org/2000/01/rdf-schema#");
+    ecore2oml.getDependencies().put("xsd", "http://www.w3.org/2001/XMLSchema#");
+    ecore2oml.getDependencies().put("dc", "http://purl.org/dc/elements/1.1/");
+    ecore2oml.xmiToOmlUsingETL(model, metamodel);
+
+    // assert
+    XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml").getAbsolutePath()), null);
+    omlResource.load(null);
+    Vocabulary vocabulary = (Vocabulary)  omlResource.getContents().get(0);
+    assertThat(vocabulary.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java");
+    
+    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java.oml").getAbsolutePath()), null);
+    omlResource.load(null);
+    Description description = (Description)  omlResource.getContents().get(0);
+    assertThat(description.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java");
+  }
+  
+  /***
+   * Test sADL model to OML using ETL
    * 
    * @throws Exception
    */
   @Test
   void testSADLXmi2OmlUsingETL() throws Exception {
 
-    File model = new File("model/first.sadl.xmi");
+    File model = new File("model/first.sadl");
     File metamodel = new File("model/SADL.ecore");
 
     Ecore2Oml ecore2oml = new Ecore2Oml();
@@ -50,15 +82,15 @@ class Ecore2OmlTest {
 
     // assert
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File("etl/vocabulary.oml").getAbsolutePath()), null);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Vocabulary vocabulary = (Vocabulary)  omlResource.getContents().get(0);
     assertThat(vocabulary.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL");
     
-    omlResource = resourceSet.createResource(URI.createFileURI(new File("etl/description.oml").getAbsolutePath()), null);
+    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.leonardo.com/lsaf/sadl/SADL/description/first.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Description description = (Description)  omlResource.getContents().get(0);
-    assertThat(description.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/description/first.sadl");
+    assertThat(description.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/description/first");
   }
   
   /***
@@ -157,7 +189,8 @@ class Ecore2OmlTest {
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
     omlResource.load(null);
-    assertThat(omlResource.getContents().size()).isGreaterThan(0);
+    Vocabulary vocabulary = (Vocabulary) omlResource.getContents().get(0);
+    assertThat(vocabulary.getIri()).contains("www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL");
   }
 
 //  /***
@@ -168,7 +201,7 @@ class Ecore2OmlTest {
 //  @Test
 //  void testOmlCode2OmlXmi() throws Exception {
 //
-//    File model = new File("model/sADL.oml");
+//    File model = new File("model/java.oml");
 //
 //    Ecore2Oml ecore2oml = new Ecore2Oml();
 //    ecore2oml.omlCodeToOmlXmi(model);

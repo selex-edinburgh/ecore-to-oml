@@ -28,7 +28,7 @@ import io.opencaesar.oml.dsl.OmlStandaloneSetup;
 
 public class Ecore2Oml {
 
-  private static String TARGET_DIR = "../targetoml/src/oml/";
+  private String targetDirectory = "../targetoml/src/oml/";
 
   private Map<String, String> dependencies = new HashMap<>();
 
@@ -36,8 +36,103 @@ public class Ecore2Oml {
 
   }
 
+  public String getTargetDirectory() {
+    return targetDirectory;
+  }
+
+  public void setTargetDirectory(String targetDirectory) {
+    this.targetDirectory = targetDirectory;
+  }
+
   public Map<String, String> getDependencies() {
     return dependencies;
+  }
+
+  /***
+   * Transform XMI model to OML using ETL.
+   * 
+   * @param sourceModelFile
+   * @param sourceMetamodelFile
+   * @throws Exception
+   */
+  public void xmiToOmlUsingETL(File sourceModelFile, File sourceMetamodelFile) throws Exception {
+
+    EmfModel xmiMetamodel = new EmfModel();
+    xmiMetamodel.setModelFile(sourceMetamodelFile.getAbsolutePath());
+    xmiMetamodel.setName("M2");
+    xmiMetamodel.load();
+    
+    org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI
+        .createFileURI(sourceMetamodelFile.getAbsolutePath());
+    Registry registry = EPackage.Registry.INSTANCE;
+    EPackage ePackage = (EPackage) xmiMetamodel.getResource().getContents().get(0);
+    String nsPrefix = (ePackage.getNsPrefix() != null) ? ePackage.getNsPrefix() : ePackage.getName();
+    String nsURI = ePackage.getNsURI();
+    if (!registry.containsKey(nsURI)) {
+      EmfUtil.register(uri, EPackage.Registry.INSTANCE);
+    }
+    
+    String nsUri = ePackage.getNsURI();
+    String baseNsUri = nsUri + "/vocabulary/base.oml";
+    String vocabularyNsUri = nsUri + "/vocabulary/" + nsPrefix + ".oml";
+    String descriptionName = sourceModelFile.getName().substring(0, sourceModelFile.getName().lastIndexOf("."));
+    String descriptionNsUri = nsUri + "/description/" + descriptionName + ".oml";
+
+    URI baseUri = URI.createURI(baseNsUri);
+    URI vocabularyUri = URI.createURI(vocabularyNsUri);
+    URI descriptionUri = URI.createURI(descriptionNsUri);
+
+    File baseFile = createTargetFile(baseUri);
+    File vocabularyFile = createTargetFile(vocabularyUri);
+    File descriptionFile = createTargetFile(descriptionUri);
+
+    EmfModel xmiModel = new EmfModel();
+    xmiModel.setModelFile(sourceModelFile.getAbsolutePath());
+    xmiModel.setName("M1");
+    xmiModel.load();
+
+    // initialise oml models
+    Injector omlInjector = new OmlStandaloneSetup().createInjectorAndDoEMFRegistration();
+    XtextResourceSet omfResourceSet = omlInjector.getInstance(XtextResourceSet.class);
+
+    // target model
+    Resource baseResource = omfResourceSet.createResource(URI.createFileURI(baseFile.getAbsolutePath()), null);
+    EmfModel baseModel = new InMemoryEmfModel(baseResource);
+    baseModel.setReadOnLoad(false);
+    baseModel.setName("B");
+
+    Resource vocabularyResource = omfResourceSet.createResource(URI.createFileURI(vocabularyFile.getAbsolutePath()),
+        null);
+    EmfModel vocabularyModel = new InMemoryEmfModel(vocabularyResource);
+    baseModel.setReadOnLoad(false);
+    vocabularyModel.setName("V");
+
+    Resource descriptionResource = omfResourceSet.createResource(URI.createFileURI(descriptionFile.getAbsolutePath()),
+        null);
+    EmfModel descriptionModel = new InMemoryEmfModel(descriptionResource);
+    descriptionModel.setReadOnLoad(false);
+    descriptionModel.setName("D");
+
+    File etlFile = new File("etl/ecore2oml.etl");
+    EtlModule module = new EtlModule();
+    module.parse(etlFile);
+
+    module.getContext().getModelRepository().addModel(xmiMetamodel);
+    module.getContext().getModelRepository().addModel(xmiModel);
+    module.getContext().getModelRepository().addModel(baseModel);
+    module.getContext().getModelRepository().addModel(vocabularyModel);
+    module.getContext().getModelRepository().addModel(descriptionModel);
+
+    // dependencies
+    loadDependencies(omfResourceSet, module);
+
+    // execute model
+    module.execute();
+
+    // save
+    baseModel.store();
+    vocabularyModel.store();
+    descriptionModel.store();
   }
 
   /***
@@ -123,7 +218,7 @@ public class Ecore2Oml {
   }
 
   private File createTargetFile(URI vocabularyUri) throws IOException {
-    String targetPath = TARGET_DIR + vocabularyUri.authority();
+    String targetPath = targetDirectory + vocabularyUri.authority();
     File targetDir = new File(targetPath);
     if (!targetDir.exists()) {
       targetDir.mkdir();
