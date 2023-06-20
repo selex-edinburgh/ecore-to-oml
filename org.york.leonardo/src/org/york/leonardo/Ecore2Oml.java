@@ -6,6 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -20,6 +29,11 @@ import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.google.inject.Injector;
 import com.leonardo.lsaf.sadl.SADLStandaloneSetup;
@@ -28,7 +42,9 @@ import io.opencaesar.oml.dsl.OmlStandaloneSetup;
 
 public class Ecore2Oml {
 
-  private String targetDirectory = "../targetoml/src/oml/";
+  private String targetOmlProjectDir = "../targetoml/";
+  private String omlSource = "src/oml/";
+  private String targetOmlSourceDir = targetOmlProjectDir + omlSource;
 
   private Map<String, String> dependencies = new HashMap<>();
 
@@ -37,11 +53,11 @@ public class Ecore2Oml {
   }
 
   public String getTargetDirectory() {
-    return targetDirectory;
+    return targetOmlSourceDir;
   }
 
   public void setTargetDirectory(String targetDirectory) {
-    this.targetDirectory = targetDirectory;
+    this.targetOmlSourceDir = targetDirectory;
   }
 
   public Map<String, String> getDependencies() {
@@ -61,7 +77,7 @@ public class Ecore2Oml {
     xmiMetamodel.setModelFile(sourceMetamodelFile.getAbsolutePath());
     xmiMetamodel.setName("M2");
     xmiMetamodel.load();
-    
+
     org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI
         .createFileURI(sourceMetamodelFile.getAbsolutePath());
     Registry registry = EPackage.Registry.INSTANCE;
@@ -71,7 +87,7 @@ public class Ecore2Oml {
     if (!registry.containsKey(nsURI)) {
       EmfUtil.register(uri, EPackage.Registry.INSTANCE);
     }
-    
+
     String nsUri = ePackage.getNsURI();
     String baseNsUri = nsUri + "/vocabulary/base.oml";
     String vocabularyNsUri = nsUri + "/vocabulary/" + nsPrefix + ".oml";
@@ -133,6 +149,49 @@ public class Ecore2Oml {
     baseModel.store();
     vocabularyModel.store();
     descriptionModel.store();
+
+  }
+
+  private void updateCatalogXml(String iri) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    File catalogFile = new File(targetOmlProjectDir + "catalog.xml");
+
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(catalogFile);
+    Node catalogNode = doc.getFirstChild();
+    NodeList nodes = catalogNode.getChildNodes();
+
+    for (int i = 0; i < nodes.getLength(); i++) {
+      Node node = nodes.item(i);
+      if (node.getNodeType() == Node.ELEMENT_NODE) {
+        String uriStartString = node.getAttributes().getNamedItem("uriStartString").getNodeValue();
+        String iri2 = (iri.charAt(iri.length() - 1) != '/') ? iri + "/" : iri;
+        if (iri2.equals(uriStartString)) {
+          return;
+        }
+      }
+    }
+
+    Element rewriteURI = doc.createElement("rewriteURI");
+    
+    String uriStartString = (iri.charAt(iri.length() - 1) != '/') ? iri + "/" : iri;
+    rewriteURI.setAttribute("uriStartString", uriStartString);
+    
+    String rewritePrefix = uriStartString;
+    rewritePrefix = rewritePrefix.replace("http://", "");
+    rewritePrefix = rewritePrefix.replace("https://", "");
+    rewritePrefix =  omlSource + rewritePrefix;
+    rewriteURI.setAttribute("rewritePrefix", rewritePrefix);
+    
+
+    catalogNode.appendChild(rewriteURI);
+
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    Transformer transformer = transformerFactory.newTransformer();
+    DOMSource source = new DOMSource(doc);
+    StreamResult result = new StreamResult(catalogFile);
+
+    transformer.transform(source, result);
   }
 
   /***
@@ -218,7 +277,7 @@ public class Ecore2Oml {
   }
 
   private File createTargetFile(URI vocabularyUri) throws IOException {
-    String targetPath = targetDirectory + vocabularyUri.authority();
+    String targetPath = targetOmlSourceDir + vocabularyUri.authority();
     File targetDir = new File(targetPath);
     if (!targetDir.exists()) {
       targetDir.mkdir();
@@ -300,6 +359,8 @@ public class Ecore2Oml {
     module.getContext().getModelRepository().addModel(metamodel);
     module.getContext().getModelRepository().addModel(model);
     module.execute();
+
+    updateCatalogXml(nsURI);
   }
 
   /***

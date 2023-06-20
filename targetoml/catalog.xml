@@ -1,18 +1,6 @@
-<?xml version="1.0"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
-	prefer="public">
-	<rewriteURI uriStartString="http://ecore2oml.com/ecore2oml/"
-		rewritePrefix="src/oml/ecore2oml.com/ecore2oml/" />
-	<rewriteURI
-		uriStartString="http://www.leonardo.com/lsaf/sadl/SADL/"
-		rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/SADL/" />
-	<rewriteURI
-		uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/"
-		rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/" />
-  <rewriteURI
-    uriStartString="http://www.eclipse.org/emf/2002/Ecore/"
-    rewritePrefix="src/oml/www.eclipse.org/emf/2002/Ecore/" />
-	<rewriteURI uriStartString="http://"
-		rewritePrefix="build/oml/" />
-</catalog>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+	<rewriteURI rewritePrefix="src/oml/ecore2oml.com/ecore2oml/" uriStartString="http://ecore2oml.com/ecore2oml/"/>
+	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/" uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/"/>
+	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/emf/2002/Ecore/" uriStartString="http://www.eclipse.org/emf/2002/Ecore/"/>
+	<rewriteURI rewritePrefix="build/oml/" uriStartString="http://"/>
+<rewriteURI rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/SADL/" uriStartString="http://www.leonardo.com/lsaf/sadl/SADL/"/></catalog>
