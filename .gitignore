@@ -11,6 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
+*.jar
 *.war
 *.nar
 *.ear
@@ -52,3 +53,4 @@ org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leona
 *.xtendbin
 *.lst
 pom.properties
+!/dependencies/*
