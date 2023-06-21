@@ -42,22 +42,24 @@ A tool to generate OML description and vocabulary files (*.oml) from Ecore model
                     -o=<omlProjectPath>
     A tool to generate OML descriptions and vocabularies from Ecore
     models/metamodels.
-        -etl, --etl-mode      Use Epsilon Transformation Language (ETL) instead
-                                of Epsilon Generation Language (EGL)
-    -h, --help                Show this help message and exit.
-    -m, --model=<modelPath>   path to the source model (*.xmi, *.sadl)
-        -mm, --metamodel=<metamodelPath>
-                                path to the source metamodel (*.ecore)
-    -o, --oml-project=<omlProjectPath>
-                                path to the target OML project, containing catalog.
-                                xml)
-    -V, --version             Print version information and exit.
+    -etl, --etl-mode        Use Epsilon Transformation Language 
+                            (ETL) instead of Epsilon Generation Language (EGL)
+    -h, --help              Show this help message and exit.
+    -m, --model=<modelPath> path to the source model (*.xmi, *.sadl)
+    -mm, --metamodel=<metamodelPath> path to the source metamodel 
+                            (*.ecore)
+    -o, --oml-project=<omlProjectPath> path to the target OML project, 
+                            containing catalog.xml.
+    -V, --version           Print version information and exit.
     ```
 
-    ```
+
 8. Now we execute the jar file with some parameters; `-m` is the path to the source XMI/SADL model (*.xmi, *.sadl), `-mm` is the metamodel (*,ecore) of the source model, and `-o` is the target OML project. Make sure all paths are correctly **adjusted** to your local machine. The model and metamodel are based on the [Java MoDisco metamodel](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.modisco.java.doc%2Fmediawiki%2Fjava_metamodel%2Fuser.html&cp%3D59_0_1_2_0).
     ```
-    java -jar org.york.leonardo-0.0.1-SNAPSHOT-jar-with-dependencies.jar -m /home/alfa/projects/ecore-to-oml/org.york.leonardo/model/java.xmi -mm /home/alfa/projects/ecore-to-oml/org.york.leonardo/model/java.ecore -o /home/alfa/projects/ecore-to-oml/targetoml
+    java -jar org.york.leonardo-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
+        -m /home/alfa/projects/ecore-to-oml/org.york.leonardo/model/java.xmi \
+        -mm /home/alfa/projects/ecore-to-oml/org.york.leonardo/model/java.ecore \
+        -o /home/alfa/projects/ecore-to-oml/targetoml
     ```
     The target OML project is the `targetoml` directory in the repo, but you could also use other OML projects created using Eclipse or Rosetta. To generate an OML project, please follow the tutorials [here](http://www.opencaesar.io/oml-tutorials/#install-oml-rosetta).
 9. The command above will generate two files, the OML vocabulary and description of the Java metamodel and model, `www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml` and `www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java.oml`. Both are located under `targetoml/src/oml` directory.
