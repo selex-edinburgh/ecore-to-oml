@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,25 +40,96 @@ import com.google.inject.Injector;
 import com.leonardo.lsaf.sadl.SADLStandaloneSetup;
 
 import io.opencaesar.oml.dsl.OmlStandaloneSetup;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
-public class Ecore2Oml {
+@Command(name = "ecore2oml", mixinStandardHelpOptions = true, description = "A tool to generate OML descriptions and vocabularies from Ecore models/metamodels.")
+public class Ecore2Oml implements Callable<Integer> {
 
+  private Ecore2Oml ecore2Oml = this;
+  
   private String targetOmlProjectDir = "../targetoml/";
-  private String omlSource = "src/oml/";
-  private String targetOmlSourceDir = targetOmlProjectDir + omlSource;
+  private String omlSourceDirInOmlProject = "src/oml/";
+  private String targetOmlSourceDir = targetOmlProjectDir + omlSourceDirInOmlProject;
 
   private Map<String, String> dependencies = new HashMap<>();
 
+  private static CommandLine commandLine;
+
+  @Option(names = { "-m", "--model" }, description = "path to the source model (*.xmi, *.sadl)", required = true)
+  private static String modelPath;
+
+  @Option(names = { "-mm", "--metamodel" }, description = "path to the source metamodel (*.ecore)", required = true)
+  private static String metamodelPath;
+
+  @Option(names = { "-o",
+      "--oml-project" }, description = "path to the target OML project, containing catalog.xml)", required = true)
+  private static String omlProjectPath;
+
+  @Option(names = { "-etl", "--etl-mode" }, description = "Use Epsilon Transformation Language (ETL) instead of "
+      + "Epsilon Generation Language (EGL)", required = false)
+
+  private static boolean etlMode = false;
+
+  @Override
+  public Integer call() throws Exception { // your business logic goes here...
+    
+    System.out.println("Generating the OML files .. ");
+    System.out.println("Source model: " + modelPath); 
+    System.out.println("Source metamodel: " + metamodelPath);
+    System.out.println("Targt OML project: " + omlProjectPath);
+    
+    if (omlProjectPath.charAt(omlProjectPath.length() - 1) != '/') {
+      omlProjectPath = omlProjectPath + File.separator;
+    }
+    ecore2Oml.setTargetOmlDirectory(omlProjectPath);
+    
+    
+
+    String extension = modelPath.substring(modelPath.lastIndexOf("."), modelPath.length());
+
+    if (etlMode) {
+      if (extension.toLowerCase().equals(".xmi")) {
+        ecore2Oml.xmiToOmlUsingETL(new File(modelPath), new File(metamodelPath));
+      }
+      if (extension.toLowerCase().equals(".sadl")) {
+        ecore2Oml.sadlToOmlUsingETL(new File(modelPath), new File(metamodelPath));
+      }
+      return 1;
+    }
+
+    if (extension.toLowerCase().equals(".xmi")) {
+      ecore2Oml.xmiToOml(new File(modelPath), new File(metamodelPath));
+    }
+    if (extension.toLowerCase().equals(".sadl")) {
+      ecore2Oml.sadlToOml(new File(modelPath), new File(metamodelPath));
+    }
+    
+    System.out.println("Done");
+    
+    return 0;
+  }
+
   public static void main(String[] args) throws Exception {
+
+    Ecore2Oml ecore2Oml = new Ecore2Oml();
+
+    commandLine = new CommandLine(ecore2Oml);
+    int systemExit = commandLine.execute(args);
+    if (systemExit > 0) {
+      System.exit(systemExit);
+    }
 
   }
 
-  public String getTargetDirectory() {
+  public String getTargetOmlDirectory() {
     return targetOmlSourceDir;
   }
 
-  public void setTargetDirectory(String targetDirectory) {
+  public void setTargetOmlDirectory(String targetDirectory) {
     this.targetOmlSourceDir = targetDirectory;
+    targetOmlSourceDir = targetOmlProjectDir + omlSourceDirInOmlProject;
   }
 
   public Map<String, String> getDependencies() {
@@ -152,7 +224,8 @@ public class Ecore2Oml {
 
   }
 
-  private void updateCatalogXml(String iri) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+  private void updateCatalogXml(String iri)
+      throws IOException, SAXException, ParserConfigurationException, TransformerException {
     File catalogFile = new File(targetOmlProjectDir + "catalog.xml");
 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -173,16 +246,15 @@ public class Ecore2Oml {
     }
 
     Element rewriteURI = doc.createElement("rewriteURI");
-    
+
     String uriStartString = (iri.charAt(iri.length() - 1) != '/') ? iri + "/" : iri;
     rewriteURI.setAttribute("uriStartString", uriStartString);
-    
+
     String rewritePrefix = uriStartString;
     rewritePrefix = rewritePrefix.replace("http://", "");
     rewritePrefix = rewritePrefix.replace("https://", "");
-    rewritePrefix =  omlSource + rewritePrefix;
+    rewritePrefix = omlSourceDirInOmlProject + rewritePrefix;
     rewriteURI.setAttribute("rewritePrefix", rewritePrefix);
-    
 
     catalogNode.appendChild(rewriteURI);
 
@@ -468,5 +540,4 @@ public class Ecore2Oml {
     omlResource.save(null);
 
   }
-
 }

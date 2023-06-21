@@ -52,12 +52,12 @@ class Ecore2OmlTest {
 
     // assert
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml").getAbsolutePath()), null);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Vocabulary vocabulary = (Vocabulary)  omlResource.getContents().get(0);
     assertThat(vocabulary.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java");
     
-    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java.oml").getAbsolutePath()), null);
+    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Description description = (Description)  omlResource.getContents().get(0);
     assertThat(description.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java");
@@ -82,12 +82,12 @@ class Ecore2OmlTest {
 
     // assert
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL.oml").getAbsolutePath()), null);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Vocabulary vocabulary = (Vocabulary)  omlResource.getContents().get(0);
     assertThat(vocabulary.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL");
     
-    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetDirectory() + "www.leonardo.com/lsaf/sadl/SADL/description/first.oml").getAbsolutePath()), null);
+    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.leonardo.com/lsaf/sadl/SADL/description/first.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Description description = (Description)  omlResource.getContents().get(0);
     assertThat(description.getIri()).isEqualTo("http://www.leonardo.com/lsaf/sadl/SADL/description/first");

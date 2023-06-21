@@ -5,6 +5,10 @@ M1 is model
 
 ***/
 
+operation SEPARATOR() {
+    return "_";
+}
+
 operation getPathFromNsURI() {
     var eResource = M1.getResource();
     var eObject = eResource.getContents.first;
@@ -40,13 +44,13 @@ operation M1!ecore::EObject getName(){
         name = self.eClass.name.firstToLowerCase;
     }
     if (self.eContainer != null) {
-        name = self.eContainer.getName().firstToLowerCase + "_" + name.firstToLowerCase;
+        name = self.eContainer.getName().firstToLowerCase + SEPARATOR() + name.firstToLowerCase;
     }
     if (self.eContainer <> null and self.eContainingFeature.isMany) {
         var collection = self.eContainer.eGet(self.eContainingFeature);
         if (collection.size > 0) {
             var pos = collection.indexOf(self);
-            name = name + "_" + pos;
+            name = name + SEPARATOR() + pos;
         }
     }
      

@@ -13,7 +13,7 @@ import "../egx/ecore2oml.eol";
 operation M1!ecore::EObject getPropertyValue(value: Any, eAttribute: M1!ecore::EAttribute, vocabulary: V!Vocabulary): D!PropertyValueAssertion {
 	var propertyValue = new D!PropertyValueAssertion;
 
-	var propertyName = self.eClass.name.firstToLowerCase + "_" + eAttribute.name;
+	var propertyName = self.eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name;
 	var scalarProperty = vocabulary.ownedStatements
 	    .selectOne(s | s.isTypeOf(V!ScalarProperty) and 
 	        s.name == propertyName);
@@ -43,7 +43,7 @@ operation M1!ecore::EObject getPropertyValue(value: Any, eAttribute: M1!ecore::E
 operation M1!ecore::EObject getPropertyValue(value: M1!ecore::EObject, eReference: M1!ecore::EReference, description: D!Description, vocabulary: V!Vocabulary): D!PropertyValueAssertion {
 	var propertyValue = new D!PropertyValueAssertion;
 	                    
-    var propertyName = self.eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase;
+    var propertyName = self.eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase;
     var scalarProperty = vocabulary.ownedStatements
         .selectOne(s | s.isTypeOf(V!RelationEntity) and 
             s.forwardRelation.name == propertyName);
@@ -213,7 +213,7 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
         for (eAttribute in eClass.eAttributes){
         
             var scalarProperty = new V!ScalarProperty;
-            scalarProperty.name = eClass.name.firstToLowerCase + "_" + eAttribute.name;
+            scalarProperty.name = eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name;
             scalarProperty.getDomainList.add(concept);
         
             var range = eAttribute.getXsdType();
@@ -236,7 +236,7 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
         for (eReference in eClass.eReferences){
             
             var relationEntity = new V!RelationEntity;
-            relationEntity.name = eClass.name + "_" + eReference.name + "_" + eReference.eType.name;
+            relationEntity.name = eClass.name + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name;
             
             relationEntity.sources.add(concept);
             
@@ -244,21 +244,18 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
             relationEntity.targets.add(targetConcept);
             
             var forwardRelation = new V!ForwardRelation;
-            forwardRelation.name = eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase;
+            forwardRelation.name = eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase;
             relationEntity.forwardRelation = forwardRelation;
 
-            var reverseRelation = new V!ReverseRelation;
-          
             if (eReference.eOpposite <> null) {
-              reverseRelation.name = eReference.eType.name.firstToLowerCase + "_rev_" + eReference.eOpposite.name + "_" + eClass.name.firstToLowerCase;    
+              var reverseRelation = new V!ReverseRelation;
+              reverseRelation.name = eReference.eType.name.firstToLowerCase + SEPARATOR() + "opp" + SEPARATOR() + eReference.eOpposite.name + SEPARATOR() + eClass.name.firstToLowerCase;
+              relationEntity.reverseRelation = reverseRelation;    
             } else if (eReference.isContainment) {
-              reverseRelation.name = eReference.eType.name.firstToLowerCase + "_in_" + eReference.name + "_" + eClass.name.firstToLowerCase;
-            } else {
-              reverseRelation.name = eReference.eType.name.firstToLowerCase + "_ref_" + eReference.name + "_" + eClass.name.firstToLowerCase;
-            }
-            relationEntity.reverseRelation = reverseRelation;
-
-
+              var reverseRelation = new V!ReverseRelation;
+              reverseRelation.name = eReference.eType.name.firstToLowerCase + SEPARATOR() + "in" + SEPARATOR() + eReference.name + SEPARATOR() + eClass.name.firstToLowerCase;
+              relationEntity.reverseRelation = reverseRelation;
+            } 
                            
             if (eReference.eOpposite <> null or eReference.isContainment) {
               relationEntity.symmetric = true;

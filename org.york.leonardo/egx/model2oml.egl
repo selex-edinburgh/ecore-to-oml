@@ -33,13 +33,13 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
          var values = eObject.eGet(eAttribute); 
          for (value in values) {
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
   [%     } %]
   [%   
      } else if (eObject.eGet(eAttribute) <> null) {
          var value = eObject.eGet(eAttribute);
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
   [%   } %]
   [% } %]
 [% /* REFERENCES */ %]
@@ -53,10 +53,10 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
              noResourceEObjects.add(value);  
            }
 //           if (eReference.isContainment) {
-//             valueName = value.eContainer.getName().firstToLowerCase + "_" + valueName;
+//             valueName = value.eContainer.getName().firstToLowerCase + SEPARATOR() + valueName;
 //           }
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%     } %]
   [%   
        } else if (eObject.eGet(eReference) <> null) {
@@ -66,10 +66,10 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
             noResourceEObjects.add(value);  
          }
 //         if (eReference.isContainment) {
-//           valueName = value.eContainer.getName().firstToLowerCase + "_" + valueName;
+//           valueName = value.eContainer.getName().firstToLowerCase + SEPARATOR() + valueName;
 //         } 
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + "_" + eReference.name + "_" + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%   } %]
   [% } %]
   ]

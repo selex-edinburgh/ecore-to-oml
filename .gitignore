@@ -48,3 +48,6 @@ org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leona
 /org.york.leonardo/etl/base.xmi
 /org.york.leonardo/etl/description.oml
 /org.york.leonardo/etl/description.xmi
+*.prefs
+*._trace
+*.xtendbin
