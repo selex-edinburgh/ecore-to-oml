@@ -108,7 +108,7 @@
       <version>1.0.0-SNAPSHOT</version>
       <scope>system</scope>
       <systemPath>
-        /home/alfa/projects/ecore-to-oml/com.leonardo.lsaf.sadl.parent/com.leonardo.lsaf.sadl/target/com.leonardo.lsaf.sadl-1.0.0-SNAPSHOT.jar</systemPath>
+        /home/alfa/projects/ecore-to-oml/dependencies/com.leonardo.lsaf.sadl-1.0.0-SNAPSHOT.jar</systemPath>
     </dependency>
   </dependencies>
 </project>

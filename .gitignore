@@ -24,15 +24,15 @@ hs_err_pid*
 replay_pid*
 org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leonardo/pom.properties
 /org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leonardo/pom.properties
-/org.york.leonardo/.gradle/8.1.1/checksums
-/org.york.leonardo/.gradle/8.1.1/executionHistory
-/org.york.leonardo/.gradle/8.1.1/dependencies-accessors
-/org.york.leonardo/.gradle/8.1.1/fileHashes
-/org.york.leonardo/.gradle/8.1.1/fileChanges
+/org.york.leonardo/.gradle/*/checksums
+/org.york.leonardo/.gradle/*/executionHistory
+/org.york.leonardo/.gradle/*/dependencies-accessors
+/org.york.leonardo/.gradle/*/fileHashes
+/org.york.leonardo/.gradle/*/fileChanges
 /org.york.leonardo/.gradle/buildOutputCleanup
 /org.york.leonardo/.gradle/file-system.probe
 /org.york.leonardo/.gradle/vcs-1/gc.properties
-/org.york.leonardo/.gradle/8.1.1/gc.properties
+/org.york.leonardo/.gradle/*/gc.properties
 /org.york.leonardo/.settings
 /org.york.leonardo/.settings
 /targetoml/.gradle/8.1.1
@@ -51,3 +51,5 @@ org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leona
 *.prefs
 *._trace
 *.xtendbin
+*.lst
+pom.properties
