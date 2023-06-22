@@ -39,7 +39,6 @@ org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leona
 /targetoml/.gradle/buildOutputCleanup
 /targetoml/src/oml
 /targetoml/build
-/targetoml/.settings
 /targetoml/.gradle/vcs-1
 /targetoml/.gradle
 /org.york.leonardo/etl/vocabulary.oml
@@ -48,7 +47,6 @@ org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leona
 /org.york.leonardo/etl/base.xmi
 /org.york.leonardo/etl/description.oml
 /org.york.leonardo/etl/description.xmi
-*.prefs
 *._trace
 *.xtendbin
 *.lst
