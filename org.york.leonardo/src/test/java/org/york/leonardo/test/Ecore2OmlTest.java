@@ -157,9 +157,9 @@ class Ecore2OmlTest {
 
     // assert
     File omlVocabulary = new File(
-        "../targetoml/src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml");
+        "../targetoml/src/oml/www.eclipse.org/emf/2002/Ecore/vocabulary/ecore.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
-    assertThat(output).contains("java");
+    assertThat(output).contains("Ecore");
 
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);

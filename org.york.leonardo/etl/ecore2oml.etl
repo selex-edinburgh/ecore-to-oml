@@ -18,6 +18,4 @@ rule Ecore2OML
     populateVocabulary(ePackage, vocabulary, base);
 	
 	populateDescription(ePackage, description, vocabulary, base); 
-    
-    "Ecore2OML completed!".println;
 }

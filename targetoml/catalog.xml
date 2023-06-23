@@ -3,4 +3,4 @@
 	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/" uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/"/>
 	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/emf/2002/Ecore/" uriStartString="http://www.eclipse.org/emf/2002/Ecore/"/>
 	<rewriteURI rewritePrefix="build/oml/" uriStartString="http://"/>
-<rewriteURI rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/SADL/" uriStartString="http://www.leonardo.com/lsaf/sadl/SADL/"/></catalog>
+<rewriteURI rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/SADL/" uriStartString="http://www.leonardo.com/lsaf/sadl/SADL/"/><rewriteURI rewritePrefix="src/oml/www.eclipse.org/uml2/5.0.0/UML/" uriStartString="http://www.eclipse.org/uml2/5.0.0/UML/"/></catalog>

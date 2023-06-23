@@ -52,3 +52,4 @@ org.york.leonardo/target/classes/META-INF/maven/org.york.leonardo/org.york.leona
 *.lst
 pom.properties
 !/dependencies/*
+/org.york.leonardo/target/surefire-reports

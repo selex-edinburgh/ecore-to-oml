@@ -217,12 +217,11 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
             scalarProperty.getDomainList.add(concept);
         
             var range = eAttribute.getXsdType();
-//            range.println("type: ");
             var name = null;
             if (range.type.name.contains("String") and range.contains(":")) {
-                range = range.split(":")[1];
+                name = range.split(":")[1];
             } else {
-                name == range;
+                name = range;
             }
             
             var scalar = xsd!Scalar.all.selectOne(s | s.name == name);
