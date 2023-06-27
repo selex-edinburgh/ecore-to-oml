@@ -15,6 +15,13 @@ operation getPathFromNsURI() {
     return eObject.eClass.ePackage.getPathFromNsURI();
 }
 
+operation getTargetDescriptionDir() {
+    var path = getPathFromNsURI();
+    var lastIndex = path.lastIndexOf("/");
+    path = path.subString(0, lastIndex);
+    return path + "/description";
+}
+
 operation getEResource() {
     var eResource = M1.getResource();
     return eResource;
@@ -57,11 +64,39 @@ operation M1!ecore::EObject getName(){
     return name;
 }
 
+operation M2!ecore::EReference getNameWithPrefix(packageName: String) {
+    var name = self.eType.name;
+    
+    if (packageName != self.eType.ePackage.name){
+        name =  self.eType.ePackage.getPrefixOrName() + ":" + name;
+    }
+    return name;
+}
+
 operation M2!ecore::EPackage getPathFromNsURI() {
     var uri = self.nsURI;
     uri = uri.replace("http://", "");
     uri = uri.replace("https://", "");
     return uri;
+}
+
+operation M2!ecore::EPackage getTargetVocabularyFile() {
+    var path = self.getPathFromNsURI();
+    return path;
+}
+
+operation M2!ecore::EPackage getBaseDir() {
+    var path = self.getPathFromNsURI();
+    var lastIndex = path.lastIndexOf("/");
+    path = path.subString(0, lastIndex);
+    return path;
+}
+
+operation M2!ecore::EPackage getPrefixOrName() {
+    var name = self.nsPrefix;
+    if (name == null or name.trim.length == 0)
+        name = self.name;
+   return name;
 }
 
 operation M2!ecore::EClass getParentClasses() {
@@ -94,20 +129,20 @@ operation M2!ecore::EObject isSet(eStructuralFeature) {
 }
 
 operation M2!ecore::EAttribute getXsdType(){
-    var type = null;
-    if (self.eType.name.equals("EString")) {
+    var type = null; 
+    if (self.eType.name.equals("EString") or self.eType.instanceClassName == "java.lang.String") {
        type = "xsd:string";
-    } else if (self.eType.name.equals("EBoolean") or self.eType.name.equals("EBooleanObject")) {
+    } else if (self.eType.name.equals("EBoolean") or self.eType.name.equals("EBooleanObject") or self.eType.instanceClassName == "boolean") {
        type = "xsd:boolean";
-    } else if (self.eType.name.equals("EByte") or self.eType.name.equals("EByteObject")) {
+    } else if (self.eType.name.equals("EByte") or self.eType.name.equals("EByteObject") or self.eType.instanceClassName == "byte") {
        type = "xsd:byte";
-    } else if (self.eType.name.equals("EChar") or self.eType.name.equals("ECharacterObject")) {
+    } else if (self.eType.name.equals("EChar") or self.eType.name.equals("ECharacterObject") or self.eType.instanceClassName == "char") {
        type = "xsd:string";
-    } else if (self.eType.name.equals("EDouble") or self.eType.name.equals("EDoubleObject")) {
+    } else if (self.eType.name.equals("EDouble") or self.eType.name.equals("EDoubleObject") or self.eType.instanceClassName == "double") {
        type = "xsd:double";
-    } else if (self.eType.name.equals("EFloat") or self.eType.name.equals("EFloatObject")) {
+    } else if (self.eType.name.equals("EFloat") or self.eType.name.equals("EFloatObject") or self.eType.instanceClassName == "float") {
        type = "xsd:float";
-    } else if (self.eType.name.equals("EInt") or self.eType.name.equals("EIntegerObject")) {
+    } else if (self.eType.name.equals("EInt") or self.eType.name.equals("EIntegerObject") or self.eType.instanceClassName == "int") {
        type = "xsd:integer";
     } else if (self.eType.name.equals("ELong") or self.eType.name.equals("ELongObject")) {
        type = "xsd:long";
@@ -119,10 +154,13 @@ operation M2!ecore::EAttribute getXsdType(){
        type = "xsd:string";
     } else if (self.eType.name.equals("EEnumerator")) {
        type = "xsd:string";
+    } else if (self.eType.name.equals("EFeatureMapEntry")) {
+       type = "xsd:string";
     } else if (self.eType.isTypeOf(M2!ecore::EEnum)) {
        type = self.eType.name;
     } else {
-        self.eType.println(" Unsupported Type ");
+        self.eType.println(" Unsupported Type so return 'xsd:string': ");
+        type = "xsd:string"; 
     }
     
     return type;

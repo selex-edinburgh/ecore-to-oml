@@ -1,22 +1,29 @@
 [% import "ecore2oml.eol"; %]
-vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/[%=ePackage.name%]#> as [%=ePackage.name.firstToLowerCase%] {
+vocabulary <http://[%=ePackage.getTargetVocabularyFile()%]#> as [%=ePackage.getPrefixOrName()%] {
   extends <http://www.w3.org/2000/01/rdf-schema#> as rdfs
   extends <http://www.w3.org/2001/XMLSchema#> as xsd
-  extends <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/base#> as base
+  extends <http://www.eclipse.org/emf/2002/Ecore#> as ecore
+[% for (key in iRIs.keySet()) {
+    //(key + ": " + iRIs.get(key)).println;
+    if (key ==  ePackage.nsURI) continue; 
+%]
+  extends <[%=key%]#> as [%=iRIs.get(key)%]
+[% } %]
+  extends <http://[%=ePackage.getBaseDir()%]/base#> as base
 
 [% for (eEnum in eEnums) { %]
-  @rdfs:comment ""
+  @rdfs:comment "EEnum [%=eEnum.name%]"
   scalar [%=eEnum.name%] [
     oneOf [%=eEnum.getLiterals()%]
   ]
 [% } %]
 
 [% for (eClass in eClasses) { %]
-  @rdfs:comment ""
+  @rdfs:comment "EClass [%=eClass.name%]"
   concept [%=eClass.name%] < base:IdentifiedThing[%=eClass.getParentClasses()%]
 
 [% for (eAttribute in eClass.getEAttributes) { %]
-  @rdfs:comment ""
+  @rdfs:comment "EAttribute [%=eAttribute.name%]"
   scalar property [%=eClass.name.firstToLowerCase%][%=SEPARATOR()%][%=eAttribute.name%] [
     domain [%=eClass.name%]
     range [%=eAttribute.getXsdType()%]
@@ -25,10 +32,10 @@ vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/[%=ePackage.name%
 [% } %]  
 
 [% for (eReference in eClass.eAllReferences) { %]
-  @rdfs:comment ""
+  @rdfs:comment "EReference [%=eReference.name%]"
   relation entity [%=eClass.name + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name%] [
     from [%=eClass.name%]
-    to [%=eReference.eType.name%]
+    to [%=eReference.getNameWithPrefix(ePackage.getPrefixOrName())%]
     forward [%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%]
     [%if (eReference.eOpposite <> null) {%]
     reverse [%= eReference.eType.name.firstToLowerCase + SEPARATOR() + "opp" + SEPARATOR() + eReference.eOpposite.name + SEPARATOR() + eClass.name.firstToLowerCase%]    

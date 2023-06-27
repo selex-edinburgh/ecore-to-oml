@@ -6,7 +6,8 @@ M1 is model
 ***/
 
 import "ecore2oml.eol";
- 
+
+
 rule Metamodel2OML
 	transform  ePackage : M2!EPackage {
 	
@@ -14,10 +15,11 @@ rule Metamodel2OML
 	   Map {
 		"ePackage" = ePackage,
 		"eEnums" = ePackage.getEClassifiers.select(e | e.isTypeOf(M2!ecore::EEnum)),
-		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(M2!ecore::EClass))
+		"eClasses" = ePackage.getEClassifiers.select(e | e.isTypeOf(M2!ecore::EClass)),
+		"iRIs" = ePackage.getIRIs()
 	}
 	template : "metamodel2oml.egl"
-	target : "../../targetoml/src/oml/" + ePackage.getPathFromNsURI() + "/vocabulary/" + ePackage.name.firstToLowerCase + ".oml"
+	target : "../../targetoml/src/oml/" + ePackage.getTargetVocabularyFile() + ".oml"
 }
 
 
@@ -30,7 +32,7 @@ rule BaseOML transform  ePackage : M2!EPackage {
 	}
 	
 	template : "baseoml.egl"
-	target : "../../targetoml/src/oml/"+ ePackage.getPathFromNsURI() + "/vocabulary/base.oml"
+	target : "../../targetoml/src/oml/"+ ePackage.getBaseDir() + "/base.oml"
 }
 
 rule Model2OML {
@@ -41,5 +43,18 @@ rule Model2OML {
         "eResource" = getEResource()
     }
     template : "model2oml.egl"
-    target : "../../targetoml//src/oml/" + getPathFromNsURI() + "/description/"+ getModelName() + ".oml"
+    target : "../../targetoml//src/oml/" + getTargetDescriptionDir() + "/"+ getModelName() + ".oml"
+}
+
+operation M2!ecore::EPackage getIRIs() {
+    var map = Map{};
+    for (eClass in self.getEClassifiers) {
+        if (eClass.isKindOf(M2!ecore::EClass)) {
+	        for (eReference in eClass.getEAllReferences){
+	            map.put(eReference.eType.ePackage.nsURI, eReference.eType.ePackage.getPrefixOrName());
+	        }
+        }
+    }
+    //map.println;
+    return map;
 }

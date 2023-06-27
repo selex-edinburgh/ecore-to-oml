@@ -1,5 +1,5 @@
 [% import "ecore2oml.eol"; %]
-vocabulary <http://[%=ePackage.getPathFromNsURI()%]/vocabulary/base#> as base {
+vocabulary <http://[%=ePackage.getBaseDir()%]/base#> as base {
 
   extends <http://www.w3.org/2000/01/rdf-schema#> as rdfs
 

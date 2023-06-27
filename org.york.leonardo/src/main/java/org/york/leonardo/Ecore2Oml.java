@@ -226,6 +226,8 @@ public class Ecore2Oml implements Callable<Integer> {
 
   private void updateCatalogXml(String iri)
       throws IOException, SAXException, ParserConfigurationException, TransformerException {
+	iri = iri.substring(0, iri.lastIndexOf("/"));
+	  
     File catalogFile = new File(targetOmlProjectDir + "catalog.xml");
 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -462,6 +464,8 @@ public class Ecore2Oml implements Callable<Integer> {
     module.getContext().getModelRepository().addModel(metamodel);
     module.getContext().getModelRepository().addModel(model);
     module.execute();
+    
+    updateCatalogXml(ePackage.getNsURI());
   }
 
   /***

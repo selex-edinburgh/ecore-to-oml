@@ -45,9 +45,11 @@ class Uml2OmlTest {
     File model = new File("model/uml.uml");
     File metamodel = new File("model/uml.ecore");
     
-    ResourceSet resources= new ResourceSetImpl();
+    // UML-specific initialisation
+    ResourceSet resources = new ResourceSetImpl();
     UMLResourcesUtil.init(resources);
     
+    //create ecore to oml
     Ecore2Oml ecore2oml = new Ecore2Oml();
     ecore2oml.xmiToOml(model, metamodel);
 
