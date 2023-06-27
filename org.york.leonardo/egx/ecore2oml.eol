@@ -99,6 +99,22 @@ operation M2!ecore::EPackage getPrefixOrName() {
    return name;
 }
 
+operation M2!ecore::EClass getNameWithPrefix(packageName: String) {
+    var name = self.name;
+    
+    if (packageName != self.ePackage.getPrefixOrName()){
+        name =  self.ePackage.getPrefixOrName() + ":" + name;
+    }
+    return name;
+}
+
+operation M2!ecore::EClass getParentClassesWithPrefix(packageName: String) {
+    var parentNames = self.getESuperTypes.collect(s | s.getNameWithPrefix(packageName));
+    var temp = parentNames.concat(", ");
+    var names = (temp.length > 0)? ", " + temp : names;  
+    return names;
+}
+
 operation M2!ecore::EClass getParentClasses() {
     var parentNames = self.getESuperTypes.collect(s | s.name);
     var temp = parentNames.concat(", ");

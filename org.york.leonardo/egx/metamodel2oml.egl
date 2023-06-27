@@ -20,7 +20,7 @@ vocabulary <http://[%=ePackage.getTargetVocabularyFile()%]#> as [%=ePackage.getP
 
 [% for (eClass in eClasses) { %]
   @rdfs:comment "EClass [%=eClass.name%]"
-  concept [%=eClass.name%] < base:IdentifiedThing[%=eClass.getParentClasses()%]
+  concept [%=eClass.name%] < base:IdentifiedThing[%=eClass.getParentClassesWithPrefix(ePackage.getPrefixOrName())%]
 
 [% for (eAttribute in eClass.getEAttributes) { %]
   @rdfs:comment "EAttribute [%=eAttribute.name%]"
