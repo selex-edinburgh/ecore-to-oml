@@ -216,15 +216,18 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
             scalarProperty.name = eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name;
             scalarProperty.getDomainList.add(concept);
         
+            var scalar = null;
             var range = eAttribute.getXsdType();
             var name = null;
-            if (range.type.name.contains("String") and range.contains(":")) {
+            if (range.contains("xsd:")) {
                 name = range.split(":")[1];
+                scalar = xsd!Scalar.all.selectOne(s | s.name == name);
             } else {
                 name = range;
+                scalar = V!Scalar.all.selectOne(v | v.name == name);
             }
+            scalar.println;
             
-            var scalar = xsd!Scalar.all.selectOne(s | s.name == name);
             scalarProperty.ranges.add(scalar);
             vocabulary.ownedStatements.add(scalarProperty);
             

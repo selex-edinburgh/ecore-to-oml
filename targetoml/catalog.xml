@@ -7,4 +7,4 @@
 	<rewriteURI rewritePrefix="src/oml/opencaesar.io/" uriStartString="http://opencaesar.io/"/>
 	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/2008/" uriStartString="http://www.eclipse.org/2008/"/>
 	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/emf/2003/" uriStartString="http://www.eclipse.org/emf/2003/"/>
-</catalog>
+<rewriteURI rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/" uriStartString="http://www.leonardo.com/lsaf/sadl/"/><rewriteURI rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/" uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/"/></catalog>

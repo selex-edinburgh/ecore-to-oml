@@ -52,15 +52,15 @@ class Ecore2OmlTest {
 
     // assert
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml").getAbsolutePath()), null);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Vocabulary vocabulary = (Vocabulary)  omlResource.getContents().get(0);
-    assertThat(vocabulary.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java");
+    assertThat(vocabulary.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
     
-    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java.oml").getAbsolutePath()), null);
+    omlResource = resourceSet.createResource(URI.createFileURI(new File(ecore2oml.getTargetOmlDirectory() + "www.eclipse.org/MoDisco/Java/0.2.incubation/description/java.oml").getAbsolutePath()), null);
     omlResource.load(null);
     Description description = (Description)  omlResource.getContents().get(0);
-    assertThat(description.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/java/description/java");
+    assertThat(description.getIri()).isEqualTo("http://www.eclipse.org/MoDisco/Java/0.2.incubation/description/java");
   }
   
   /***
@@ -108,7 +108,7 @@ class Ecore2OmlTest {
     ecore2oml.xmiToOml(model, metamodel);
 
     // assert
-    File omlVocabulary = new File("../targetoml/src/oml/www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL.oml");
+    File omlVocabulary = new File("../targetoml/src/oml/www.leonardo.com/lsaf/sadl/SADL.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("sADL");
 
@@ -134,7 +134,7 @@ class Ecore2OmlTest {
 
     // assert
     File omlVocabulary = new File(
-        "../targetoml/src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java/vocabulary/java.oml");
+        "../targetoml/src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("java");
 
@@ -157,7 +157,7 @@ class Ecore2OmlTest {
 
     // assert
     File omlVocabulary = new File(
-        "../targetoml/src/oml/www.eclipse.org/emf/2002/Ecore/vocabulary/ecore.oml");
+        "../targetoml/src/oml/www.eclipse.org/emf/2002/Ecore.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("Ecore");
 
