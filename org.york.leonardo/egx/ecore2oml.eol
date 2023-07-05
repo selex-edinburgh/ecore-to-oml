@@ -5,6 +5,36 @@ M1 is model
 
 ***/
 
+operation getIRIs() {
+    var map = Map{};
+    for (eObject in M1!EObject.all) {
+        for (eReference in eObject.eClass.getEAllReferences){
+            var value = eObject.eGet(eReference);
+            if (value != null) {
+                if (value.isKindOf(Collection)){
+                    for (element in value){
+                        map.put(element.eClass.ePackage.nsURI, element.eClass.ePackage.getPrefixOrName());
+                    }
+                }else{
+                    map.put(value.eClass.ePackage.nsURI, value.eClass.ePackage.getPrefixOrName());
+                }
+            }
+        }
+    }
+//    map.println;
+    return map;
+}
+
+operation M2!ecore::EPackage getIRIs() {
+    var map = Map{};
+    for (eClass in M2!ecore::EClass.all) {
+        for (eReference in eClass.getEAllReferences){
+            map.put(eReference.eType.ePackage.nsURI, eReference.eType.ePackage.getPrefixOrName());
+        }
+    }
+    return map;
+}
+
 operation SEPARATOR() {
     return "_";
 }
@@ -18,7 +48,8 @@ operation getPathFromNsURI() {
 operation getTargetDescriptionDir() {
     var path = getPathFromNsURI();
     var lastIndex = path.lastIndexOf("/");
-    path = path.subString(0, lastIndex);
+    if (lastIndex > -1)
+        path = path.subString(0, lastIndex);
     return path + "/description";
 }
 
@@ -88,7 +119,8 @@ operation M2!ecore::EPackage getTargetVocabularyFile() {
 operation M2!ecore::EPackage getBaseDir() {
     var path = self.getPathFromNsURI();
     var lastIndex = path.lastIndexOf("/");
-    path = path.subString(0, lastIndex);
+    if (lastIndex > -1) 
+        path = path.subString(0, lastIndex);
     return path;
 }
 

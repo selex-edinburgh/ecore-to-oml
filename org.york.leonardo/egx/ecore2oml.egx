@@ -40,21 +40,11 @@ rule Model2OML {
     parameters : 
        Map {
         "modelName" = getModelName(),
-        "eResource" = getEResource()
+        "eResource" = getEResource(),
+        "iRIs" = getIRIs()
     }
     template : "model2oml.egl"
     target : "../../targetoml//src/oml/" + getTargetDescriptionDir() + "/"+ getModelName() + ".oml"
 }
 
-operation M2!ecore::EPackage getIRIs() {
-    var map = Map{};
-    for (eClass in self.getEClassifiers) {
-        if (eClass.isKindOf(M2!ecore::EClass)) {
-	        for (eReference in eClass.getEAllReferences){
-	            map.put(eReference.eType.ePackage.nsURI, eReference.eType.ePackage.getPrefixOrName());
-	        }
-        }
-    }
-    //map.println;
-    return map;
-}
+

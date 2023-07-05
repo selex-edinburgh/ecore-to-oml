@@ -145,6 +145,32 @@ class Ecore2OmlTest {
   }
   
   /***
+   * Test Modisco Java model to OML
+   * 
+   * @throws Exception
+   */
+  @Test
+  void testTreeDSL2Oml() throws Exception {
+
+    File model = new File("model/Tree.xmi");
+    File metamodel = new File("model/Tree.ecore");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.xmiToOml(model, metamodel);
+
+    // assert
+    File omlVocabulary = new File(
+        "../targetoml/src/oml/www.example.org/TreeDSL.oml");
+    String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
+    assertThat(output).contains("TreeDSL");
+
+    XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+    Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
+    omlResource.load(null);
+    assertThat(omlResource.getContents().size()).isGreaterThan(0);
+  }
+  
+  /***
    * Test Ecore metamodel (and as a model) to OML
    * 
    * @throws Exception

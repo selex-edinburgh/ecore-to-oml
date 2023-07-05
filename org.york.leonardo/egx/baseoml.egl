@@ -1,4 +1,6 @@
-[% import "ecore2oml.eol"; %]
+[% import "ecore2oml.eol"; 
+    //ePackage.nsURI.println("Base: " + ePackage.nsPrefix + ": ");
+%]
 vocabulary <http://[%=ePackage.getBaseDir()%]/base#> as base {
 
   extends <http://www.w3.org/2000/01/rdf-schema#> as rdfs

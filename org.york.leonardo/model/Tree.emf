@@ -1,0 +1,9 @@
+@namespace(uri="http://www.example.org/TreeDSL", prefix="treedsl")
+
+package TreeDsl;
+
+class Tree {
+	val Tree[*]#parent children;
+	ref Tree#children parent;
+	attr String label;
+}

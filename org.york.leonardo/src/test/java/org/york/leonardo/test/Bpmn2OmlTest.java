@@ -53,7 +53,7 @@ class Bpmn2OmlTest {
 		ecore2oml.xmiToOml(model, metamodel);
 
 		// assert
-		File omlVocabulary = new File("../targetoml/src/oml/www.omg.org/spec/BPMN/20100524/MODEL-XMI/vocabulary/bpmn2.oml");
+		File omlVocabulary = new File("../targetoml/src/oml/www.omg.org/spec/BPMN/20100524/MODEL-XMI.oml");
 		String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
 		assertThat(output).contains("BPMN");
 

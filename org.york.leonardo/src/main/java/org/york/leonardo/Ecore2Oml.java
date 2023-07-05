@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -29,6 +30,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -245,7 +248,7 @@ public class Ecore2Oml implements Callable<Integer> {
 		Set<String> iris = new HashSet<String>();
 		Set<EPackage> ePackages = new HashSet<EPackage>();
 		ePackages.addAll((Collection<? extends EPackage>) EPackage.Registry.INSTANCE.values());
-		
+
 		for (EPackage ePackage : ePackages) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers().stream().filter(c -> c instanceof EClass)
 					.toList()) {
@@ -255,11 +258,12 @@ public class Ecore2Oml implements Callable<Integer> {
 				}
 			}
 		}
-		System.out.println(iris.toString());
+//		System.out.println(iris.toString());
 
-		A : for (String iri : iris) {
-
-			iri = iri.substring(0, iri.lastIndexOf("/"));
+		A: for (String iri : iris) {
+			int lastIndex = iri.lastIndexOf("/");
+			if (lastIndex > -1)
+				iri = iri.substring(0, lastIndex);
 
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Node node = nodes.item(i);
@@ -439,6 +443,8 @@ public class Ecore2Oml implements Callable<Integer> {
 		metamodel.setName("M2");
 		metamodel.load();
 
+		getEPackages(metamodel);
+
 		org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI
 				.createFileURI(sourceMetamodelFile.getAbsolutePath());
 		Registry registry = EPackage.Registry.INSTANCE;
@@ -462,6 +468,28 @@ public class Ecore2Oml implements Callable<Integer> {
 		module.execute();
 
 		updateCatalogXml(metamodel.getResource());
+	}
+
+	private void getEPackages(EmfModel metamodel) {
+		Map<String, EPackage> ePackages = new HashMap<>();
+		TreeIterator<EObject> iterator = metamodel.getResource().getAllContents();
+		while (iterator.hasNext()) {
+			EObject eObject = iterator.next();
+			if (eObject instanceof EClass) {
+				EClass eClass = (EClass) eObject;
+				for (EStructuralFeature eFeature : eClass.getEAllStructuralFeatures()) {
+//					System.out.println(eFeature.getEType().getEPackage());
+					ePackages.put(eFeature.getEType().getEPackage().getNsURI(), eFeature.getEType().getEPackage());
+				}
+			}
+		}
+		for (Entry<String, EPackage> entry : ePackages.entrySet()) {
+			if (!metamodel.getResource().getContents().contains(entry.getValue())
+					&& !EPackage.Registry.INSTANCE.containsKey(entry.getKey())) {
+				metamodel.getResource().getContents().add(entry.getValue());
+				this.getEPackages(metamodel);
+			}
+		}
 	}
 
 	/***

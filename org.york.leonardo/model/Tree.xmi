@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<treedsl:Tree xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:treedsl="http://www.example.org/TreeDSL" xmi:id="_Sl1w4BWsEe6LnMV2OIpxUA" label="Root">
+  <children xmi:id="_TehFUBWsEe6LnMV2OIpxUA" label="A"/>
+  <children xmi:id="_T0Qr0BWsEe6LnMV2OIpxUA" label="B"/>
+</treedsl:Tree>

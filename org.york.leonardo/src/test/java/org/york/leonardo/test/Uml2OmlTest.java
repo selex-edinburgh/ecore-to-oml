@@ -55,7 +55,7 @@ class Uml2OmlTest {
 
     // assert
     File omlVocabulary = new File(
-        "../targetoml/src/oml/www.eclipse.org/uml2/5.0.0/UML/vocabulary/uml.oml");
+        "../targetoml/src/oml/www.eclipse.org/uml2/5.0.0/UML.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("UML");
 

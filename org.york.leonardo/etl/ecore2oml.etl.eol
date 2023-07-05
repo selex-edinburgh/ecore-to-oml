@@ -226,7 +226,7 @@ operation populateVocabulary(ePackage: M2!ecore::EPackage, vocabulary: V!Vocabul
                 name = range;
                 scalar = V!Scalar.all.selectOne(v | v.name == name);
             }
-            scalar.println;
+            //scalar.println;
             
             scalarProperty.ranges.add(scalar);
             vocabulary.ownedStatements.add(scalarProperty);

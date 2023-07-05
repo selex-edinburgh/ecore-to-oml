@@ -15,6 +15,12 @@ var noResourceEObjects = Set{};
 description <[%=nsUriDescription%]> as [%=modelName%] {
   uses <http://purl.org/dc/elements/1.1/> as dc
   uses <[%=nsUriVocabulary%]> as [%=ePackageName%]
+[% for (key in iRIs.keySet()) {
+    //(key + ": " + iRIs.get(key)).println;
+    if (key ==  ePackage.nsURI) continue; 
+%]
+  uses <[%=key%]#> as [%=iRIs.get(key)%]
+[% } %]
 
 
 
@@ -22,7 +28,7 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
     var name = eObject.getName();
     var eClass = eObject.eClass;
 %]
-  instance [%=name%] : [%=ePackageName%]:[%=eObject.eClass.name%] [
+  instance [%=name%] : [%=eObject.eClass.ePackage.getPrefixOrName()%]:[%=eObject.eClass.name%] [
 [% /* ATTRIBUTES */ %]
   [% 
      for (eAttribute in eClass.eAttributes) { 
@@ -33,13 +39,13 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
          var values = eObject.eGet(eAttribute); 
          for (value in values) {
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
+    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.getXsdType() == "xsd:string" )? "\"" + value + "\"" : value %]
   [%     } %]
   [%   
      } else if (eObject.eGet(eAttribute) <> null) {
          var value = eObject.eGet(eAttribute);
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.eType.name.equals("EString") or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
+    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.getXsdType() == "xsd:string")? "\"" + value + "\"" : value %]
   [%   } %]
   [% } %]
 [% /* REFERENCES */ %]
@@ -56,7 +62,7 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
 //             valueName = value.eContainer.getName().firstToLowerCase + SEPARATOR() + valueName;
 //           }
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%     } %]
   [%   
        } else if (eObject.eGet(eReference) <> null) {
@@ -69,7 +75,7 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
 //           valueName = value.eContainer.getName().firstToLowerCase + SEPARATOR() + valueName;
 //         } 
   %]
-    [%=ePackageName%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%] [%=valueName%]
+    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eReference.name + SEPARATOR() + eReference.eType.name.firstToLowerCase%] [%=valueName%]
   [%   } %]
   [% } %]
   ]
