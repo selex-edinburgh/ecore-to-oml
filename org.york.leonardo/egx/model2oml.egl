@@ -39,13 +39,13 @@ description <[%=nsUriDescription%]> as [%=modelName%] {
          var values = eObject.eGet(eAttribute); 
          for (value in values) {
   %]
-    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.getXsdType() == "xsd:string" )? "\"" + value + "\"" : value %]
+    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.getXsdType() == "xsd:string" or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
   [%     } %]
   [%   
      } else if (eObject.eGet(eAttribute) <> null) {
          var value = eObject.eGet(eAttribute);
   %]
-    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.getXsdType() == "xsd:string")? "\"" + value + "\"" : value %]
+    [%=eClass.ePackage.getPrefixOrName()%]:[%=eClass.name.firstToLowerCase + SEPARATOR() + eAttribute.name%] [%=(eAttribute.getXsdType() == "xsd:string" or eAttribute.eType.isKindOf(M2!ecore::EEnum))? "\"" + value + "\"" : value %]
   [%   } %]
   [% } %]
 [% /* REFERENCES */ %]

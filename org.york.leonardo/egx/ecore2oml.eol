@@ -74,13 +74,7 @@ operation getModelName(){
 }
 
 operation M1!ecore::EObject getName(){
-    var name = null;
-    if (self.eClass.getEStructuralFeature("name") <> null) {
-        name = self.name; 
-    }
-    if (name == null or name.trim.length == 0) {
-        name = self.eClass.name.firstToLowerCase;
-    }
+    var name = self.eClass.name.firstToLowerCase;
     if (self.eContainer != null) {
         name = self.eContainer.getName().firstToLowerCase + SEPARATOR() + name.firstToLowerCase;
     }
