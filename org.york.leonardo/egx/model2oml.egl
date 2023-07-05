@@ -2,12 +2,9 @@
 [%
 // global variables
 var ePackage = eResource.getContents.first.eClass.ePackage;
-var nsPrefix = ePackage.nsPrefix;
-if (nsPrefix.trim.length == 0)
-    nsPrefix = ePackage.name;
 var nsUriVocabulary = "http://" + ePackage.getTargetVocabularyFile() + "#";
 var nsUriDescription = "http://" + getTargetDescriptionDir() + "/" + modelName + "#";
-var ePackageName = nsPrefix.toLowerCase;
+var ePackageName = ePackage.getPrefixOrName();
 var noResourceEObjects = Set{};
 
 %]

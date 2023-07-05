@@ -244,7 +244,8 @@ public class Ecore2Oml implements Callable<Integer> {
 
 		Set<String> iris = new HashSet<String>();
 		Set<EPackage> ePackages = new HashSet<EPackage>();
-		ePackages.addAll((Collection<? extends EPackage>) EPackage.Registry.INSTANCE.values());
+		ePackages.addAll((Collection<? extends EPackage>) resource.getContents().stream().filter(e -> e instanceof EPackage).toList());
+//		ePackages.addAll((Collection<? extends EPackage>) EPackage.Registry.INSTANCE.values());
 
 		for (EPackage ePackage : ePackages) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers().stream().filter(c -> c instanceof EClass)

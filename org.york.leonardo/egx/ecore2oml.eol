@@ -62,10 +62,10 @@ operation getModelName(){
     var eResource = M1.getResource();
     var name = null;
     if (eResource.getURI <> null) {
-	    var path = eResource.getURI.toString;
-	    var startIndex = path.lastIndexOf("/");
-	    var endIndex = path.lastIndexOf(".");
-	    name = path.substring(startIndex + 1, endIndex);
+        var path = eResource.getURI.toString;
+        var startIndex = path.lastIndexOf("/");
+        var endIndex = path.lastIndexOf(".");
+        name = path.substring(startIndex + 1, endIndex);
     } else {
         var eObject = eResource.getContents.first;
         name = eObject.eClass.ePackage.nsPrefix;
@@ -74,7 +74,13 @@ operation getModelName(){
 }
 
 operation M1!ecore::EObject getName(){
-    var name = self.eClass.name.firstToLowerCase;
+    var name = null;
+    if (self.eClass.getEStructuralFeature("name") <> null) {
+        name = self.name;
+    }
+    if (name == null or name.trim.length == 0) {
+        name = self.eClass.name.firstToLowerCase;
+    }
     if (self.eContainer != null) {
         name = self.eContainer.getName().firstToLowerCase + SEPARATOR() + name.firstToLowerCase;
     }
@@ -85,7 +91,7 @@ operation M1!ecore::EObject getName(){
             name = name + SEPARATOR() + pos;
         }
     }
-     
+    name = name.trim.replace(" ", SEPARATOR()); 
     return name;
 }
 
@@ -206,36 +212,36 @@ operation M2!ecore::EAttribute getXsdType(){
     }
     
     return type;
-//	EBoolean
-//	EByte
-//	EChar
-//	EDouble
-//	EFloat
-//	EInt
-//	ELong
-//	EShort
-//	EJavaObject
-//	EJavaClass
-//	EBooleanObject
-//	EByteObject
-//	ECharacterObject
-//	EDoubleObject
-//	EFloatObject
-//	EIntegerObject
-//	ELongObject
-//	EShortObject
-//	EByteArray
-//	
-//	EDate
-//	EBigInteger
-//	EBigDecimal
-//	EResource
-//	EResourceSet
-//	EFeatureMap
-//	EFeatureMapEntry
-//	EEnumerator
-//	EEList
-//	ETreeIterator
+//  EBoolean
+//  EByte
+//  EChar
+//  EDouble
+//  EFloat
+//  EInt
+//  ELong
+//  EShort
+//  EJavaObject
+//  EJavaClass
+//  EBooleanObject
+//  EByteObject
+//  ECharacterObject
+//  EDoubleObject
+//  EFloatObject
+//  EIntegerObject
+//  ELongObject
+//  EShortObject
+//  EByteArray
+//  
+//  EDate
+//  EBigInteger
+//  EBigDecimal
+//  EResource
+//  EResourceSet
+//  EFeatureMap
+//  EFeatureMapEntry
+//  EEnumerator
+//  EEList
+//  ETreeIterator
 }
 
 //anyURI, base64Binary, boolean, date, dateTime, decimal, double, duration, float, hexBinary, gDay, gMonth, gMonthDay, gYear, gYearMonth, NOTATION, QName, string, and time

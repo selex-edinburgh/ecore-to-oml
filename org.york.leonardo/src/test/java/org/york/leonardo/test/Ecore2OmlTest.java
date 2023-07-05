@@ -9,8 +9,6 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -208,7 +206,7 @@ class Ecore2OmlTest {
     ecore2oml.sadlToOml(model, metamodel);
 
     // assert
-    File omlVocabulary = new File("../targetoml/src/oml/www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL.oml");
+    File omlVocabulary = new File("../targetoml/src/oml/www.leonardo.com/lsaf/sadl/SADL.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
     assertThat(output).contains("sADL");
 
@@ -216,7 +214,7 @@ class Ecore2OmlTest {
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
     omlResource.load(null);
     Vocabulary vocabulary = (Vocabulary) omlResource.getContents().get(0);
-    assertThat(vocabulary.getIri()).contains("www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL");
+    assertThat(vocabulary.getIri()).contains("www.leonardo.com/lsaf/sadl/SADL");
   }
 
 //  /***
