@@ -152,6 +152,7 @@ public class Ecore2Oml implements Callable<Integer> {
 	 */
 	public void xmiToOmlUsingETL(File sourceModelFile, File sourceMetamodelFile) throws Exception {
 
+		
 		EmfModel xmiMetamodel = new EmfModel();
 		xmiMetamodel.setModelFile(sourceMetamodelFile.getAbsolutePath());
 		xmiMetamodel.setName("M2");
@@ -550,6 +551,24 @@ public class Ecore2Oml implements Callable<Integer> {
 		module.getContext().getModelRepository().addModel(metamodel);
 		module.getContext().getModelRepository().addModel(model);
 		module.execute();
+	}
+	
+	/***
+	 * 
+	 * @param sourceModelFile
+	 * @param sourceMetamodelFile
+	 * @throws Exception
+	 */
+	public void sadlModelToXmi(File sourceModelFile) throws Exception {
+		
+		Injector injector = new SADLStandaloneSetup().createInjectorAndDoEMFRegistration();
+		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+		Resource resource = resourceSet.createResource(URI.createFileURI(sourceModelFile.getAbsolutePath()), null);
+		resource.load(null);
+
+		XMIResource xmiResource = new XMIResourceImpl(URI.createFileURI(sourceModelFile.getAbsolutePath()+ ".xmi"));
+		xmiResource.getContents().addAll(EcoreUtil.copyAll(resource.getContents()));
+		xmiResource.save(null);
 	}
 
 	/***

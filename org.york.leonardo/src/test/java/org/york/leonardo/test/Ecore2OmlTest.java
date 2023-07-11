@@ -208,13 +208,26 @@ class Ecore2OmlTest {
     // assert
     File omlVocabulary = new File("../targetoml/src/oml/www.leonardo.com/lsaf/sadl/SADL.oml");
     String output = Files.readString(Path.of(omlVocabulary.getAbsolutePath()), StandardCharsets.UTF_8);
-    assertThat(output).contains("sADL");
+    assertThat(output).contains("SADL");
 
     XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
     Resource omlResource = resourceSet.createResource(URI.createFileURI(omlVocabulary.getAbsolutePath()), null);
     omlResource.load(null);
     Vocabulary vocabulary = (Vocabulary) omlResource.getContents().get(0);
     assertThat(vocabulary.getIri()).contains("www.leonardo.com/lsaf/sadl/SADL");
+  }
+  
+  @Test
+  void testSADLCode2Xmi() throws Exception {
+
+    File model = new File("model/sample.sadl");
+
+    Ecore2Oml ecore2oml = new Ecore2Oml();
+    ecore2oml.sadlModelToXmi(model);
+    
+    File omlmodel = new File(model.getAbsolutePath() + ".xmi" );
+    String output = Files.readString(Path.of(omlmodel.getAbsolutePath()), StandardCharsets.UTF_8);
+    assertThat(output).contains("SADL");
   }
 
 //  /***

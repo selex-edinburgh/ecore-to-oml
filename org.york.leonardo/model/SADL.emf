@@ -1,5 +1,5 @@
-@namespace(uri="http://www.leonardo.com/lsaf/sadl/SADL", prefix="sADL")
-package sADL;
+@namespace(uri="http://www.leonardo.com/lsaf/sadl/SADL", prefix="sadl")
+package sadl;
 
 class Model {
 	val Package[*] ~package;
@@ -89,5 +89,94 @@ class TopicPort extends Port {
 
 class InterfacePort extends Port {
 	ref Interface type;
+}
+
+class Platform extends PackageableElement {
+	attr String description;
+	val Processor[*] processors;
+	val Link[*] links;
+}
+
+class Processor {
+	attr String name;
+	attr String description;
+}
+
+class Link {
+	attr String name;
+	attr String description;
+	!unique ref Processor[*] processors;
+	ref Transport transport;
+	val PropertyValue[*] value;
+}
+
+class Property {
+	attr String name;
+	attr boolean optional;
+	attr String description;
+}
+
+class PropertyValue {
+	ref Property property;
+	attr String value;
+}
+
+class Transport extends PackageableElement {
+	attr String description;
+	val Property[*] properties;
+}
+
+class Application extends PackageableElement {
+	attr String description;
+	val Container[*] containers;
+}
+
+class Container {
+	attr String name;
+	attr String description;
+	val Instance[*] instances;
+	val Connection[*] connections;
+	val Container[*] children;
+}
+
+class Instance {
+	ref Component type;
+	attr String name;
+	attr boolean unbounded;
+	attr int lowerBound;
+	attr int upperBound;
+	attr String description;
+}
+
+class Connection {
+	attr String name;
+	ref Instance from;
+	!unique ref Port[*] source;
+	ref Instance to;
+	!unique ref Port[*] destination;
+	ref Strategy strategy;
+	val PropertyValue[*] value;
+	attr String description;
+}
+
+class Deployment extends PackageableElement {
+	attr String description;
+	val ContainerMapping[*] containermapping;
+	val ConnectionMapping[*] connectionmapping;
+}
+
+class ContainerMapping {
+	ref Processor processor;
+	ref Container container;
+}
+
+class ConnectionMapping {
+	ref Link link;
+	ref Connection connection;
+}
+
+class Strategy extends PackageableElement {
+	attr String description;
+	val Property[*] properties;
 }
 
