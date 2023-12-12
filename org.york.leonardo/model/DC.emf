@@ -1,0 +1,78 @@
+@namespace(uri="http://www.omg.org/spec/DD/20100524/DC-XMI", prefix="dc")
+package dc;
+
+@ExtendedMetaData(name="", kind="mixed")
+class DocumentRoot {
+
+	@ExtendedMetaData(kind="elementWildcard", name=":mixed")
+	!unique attr ecore.EFeatureMapEntry[*] mixed;
+
+	@ExtendedMetaData(kind="attribute", name="xmlns:prefix")
+	transient !resolve val ecore.EStringToStringMapEntry[*] xMLNSPrefixMap;
+
+	@ExtendedMetaData(kind="attribute", name="xsi:schemaLocation")
+	transient !resolve val ecore.EStringToStringMapEntry[*] xSISchemaLocation;
+
+	@ExtendedMetaData(kind="element", name="Bounds", namespace="http://www.omg.org/spec/DD/20100524/DC")
+	volatile transient derived !resolve val Bounds[0..?] bounds;
+
+	@ExtendedMetaData(kind="element", name="Font", namespace="http://www.omg.org/spec/DD/20100524/DC")
+	volatile transient derived !resolve val Font[0..?] font;
+
+	@ExtendedMetaData(kind="element", name="Point", namespace="http://www.omg.org/spec/DD/20100524/DC")
+	volatile transient derived !resolve val Point[0..?] point;
+}
+
+@ExtendedMetaData(name="Bounds", kind="empty")
+class Bounds {
+
+	@ExtendedMetaData(kind="attribute", name="height")
+	!ordered attr float[1] height;
+
+	@ExtendedMetaData(kind="attribute", name="width")
+	!ordered attr float[1] width;
+
+	@ExtendedMetaData(kind="attribute", name="x")
+	!ordered attr float[1] x = "0";
+
+	@ExtendedMetaData(kind="attribute", name="y")
+	!ordered attr float[1] y = "0";
+}
+
+@ExtendedMetaData(name="Font", kind="empty")
+class Font {
+
+	@GenModel(documentation="size >=  0")
+	op boolean non_negative_size(@GenModel(documentation="The chain of diagnostics to which problems are to be appended.")
+ecore.EDiagnosticChain diagnostics, @GenModel(documentation="The cache of context-specific information.")
+ecore.EMap<EJavaObject, EJavaObject> context);
+
+	@ExtendedMetaData(kind="attribute", name="isBold")
+	!ordered attr boolean isBold;
+
+	@ExtendedMetaData(kind="attribute", name="isItalic")
+	!ordered attr boolean isItalic;
+
+	@ExtendedMetaData(kind="attribute", name="isStrikeThrough")
+	!ordered attr boolean isStrikeThrough;
+
+	@ExtendedMetaData(kind="attribute", name="isUnderline")
+	!ordered attr boolean isUnderline;
+
+	@ExtendedMetaData(kind="attribute", name="name")
+	!ordered attr String name;
+
+	@ExtendedMetaData(kind="attribute", name="size")
+	!ordered attr float size;
+}
+
+@ExtendedMetaData(name="Point", kind="empty")
+class Point {
+
+	@ExtendedMetaData(kind="attribute", name="x")
+	!ordered attr float[1] x = "0";
+
+	@ExtendedMetaData(kind="attribute", name="y")
+	!ordered attr float[1] y = "0";
+}
+

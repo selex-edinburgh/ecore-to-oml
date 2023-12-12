@@ -1,19 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
-	prefer="public">
-	<rewriteURI rewritePrefix="src/oml/ecore2oml.com/ecore2oml/"
-		uriStartString="http://ecore2oml.com/ecore2oml/" />
-	<rewriteURI rewritePrefix="build/oml/"
-		uriStartString="http://" />
-	<rewriteURI rewritePrefix="src/oml/www.example.org/"
-		uriStartString="http://www.example.org/" />
-	<rewriteURI
-		rewritePrefix="src/oml/www.eclipse.org/emf/2002/"
-		uriStartString="http://www.eclipse.org/emf/2002/" />
-	<rewriteURI
-		rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/"
-		uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/" />
-	<rewriteURI
-		rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/"
-		uriStartString="http://www.leonardo.com/lsaf/sadl/" />
-</catalog>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+	<rewriteURI rewritePrefix="src/oml/ecore2oml.com/ecore2oml/" uriStartString="http://ecore2oml.com/ecore2oml/"/>
+	<rewriteURI rewritePrefix="build/oml/" uriStartString="http://"/>
+	<rewriteURI rewritePrefix="src/oml/www.example.org/" uriStartString="http://www.example.org/"/>
+	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/emf/2002/" uriStartString="http://www.eclipse.org/emf/2002/"/>
+	<rewriteURI rewritePrefix="src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/" uriStartString="http://www.eclipse.org/MoDisco/Java/0.2.incubation/"/>
+	<rewriteURI rewritePrefix="src/oml/www.leonardo.com/lsaf/sadl/" uriStartString="http://www.leonardo.com/lsaf/sadl/"/>
+<rewriteURI rewritePrefix="src/oml/www.eclipse.org/uml2/5.0.0/" uriStartString="http://www.eclipse.org/uml2/5.0.0/"/><rewriteURI rewritePrefix="src/oml/www.omg.org/spec/BPMN/20100524/" uriStartString="http://www.omg.org/spec/BPMN/20100524/"/><rewriteURI rewritePrefix="src/oml/www.omg.org/spec/DD/20100524/" uriStartString="http://www.omg.org/spec/DD/20100524/"/></catalog>

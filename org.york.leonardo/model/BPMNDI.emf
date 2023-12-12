@@ -1,0 +1,130 @@
+@namespace(uri="http://www.omg.org/spec/BPMN/20100524/DI-XMI", prefix="bpmndi")
+package di;
+
+import "platform:/resource/org.york.leonardo/model/DI.ecore";
+import "platform:/resource/org.york.leonardo/model/BPMN20.ecore";
+import "platform:/resource/org.york.leonardo/model/DC.ecore";
+
+@ExtendedMetaData(name="", kind="mixed")
+class DocumentRoot {
+
+	@ExtendedMetaData(kind="elementWildcard", name=":mixed")
+	!unique attr ecore.EFeatureMapEntry[*] mixed;
+
+	@ExtendedMetaData(kind="attribute", name="xmlns:prefix")
+	transient !resolve val ecore.EStringToStringMapEntry[*] xMLNSPrefixMap;
+
+	@ExtendedMetaData(kind="attribute", name="xsi:schemaLocation")
+	transient !resolve val ecore.EStringToStringMapEntry[*] xSISchemaLocation;
+
+	@ExtendedMetaData(kind="element", name="BPMNDiagram", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	volatile transient derived !resolve val BPMNDiagram[0..?] bPMNDiagram;
+
+	@ExtendedMetaData(kind="element", name="BPMNEdge", namespace="http://www.omg.org/spec/BPMN/20100524/DI", affiliation="http://www.omg.org/spec/DD/20100524/DI#DiagramElement")
+	volatile transient derived !resolve val BPMNEdge[0..?] bPMNEdge;
+
+	@ExtendedMetaData(kind="element", name="BPMNLabel", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	volatile transient derived !resolve val BPMNLabel[0..?] bPMNLabel;
+
+	@ExtendedMetaData(kind="element", name="BPMNLabelStyle", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	volatile transient derived !resolve val BPMNLabelStyle[0..?] bPMNLabelStyle;
+
+	@ExtendedMetaData(kind="element", name="BPMNPlane", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	volatile transient derived !resolve val BPMNPlane[0..?] bPMNPlane;
+
+	@ExtendedMetaData(kind="element", name="BPMNShape", namespace="http://www.omg.org/spec/BPMN/20100524/DI", affiliation="http://www.omg.org/spec/DD/20100524/DI#DiagramElement")
+	volatile transient derived !resolve val BPMNShape[0..?] bPMNShape;
+}
+
+@ExtendedMetaData(name="BPMNDiagram", kind="elementOnly")
+class BPMNDiagram extends di.Diagram {
+
+	@ExtendedMetaData(kind="element", name="BPMNPlane", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	!ordered val BPMNPlane[1] plane;
+
+	@ExtendedMetaData(kind="element", name="BPMNLabelStyle", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	!ordered val BPMNLabelStyle[*] labelStyle;
+}
+
+@ExtendedMetaData(name="BPMNEdge", kind="elementOnly")
+class BPMNEdge extends di.LabeledEdge {
+
+	@ExtendedMetaData(kind="element", name="BPMNLabel", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	!ordered val BPMNLabel label;
+
+	@ExtendedMetaData(kind="attribute", name="bpmnElement")
+	!ordered ref bpmn2.BaseElement bpmnElement;
+
+	@ExtendedMetaData(kind="attribute", name="messageVisibleKind")
+	!ordered attr MessageVisibleKind messageVisibleKind;
+
+	@ExtendedMetaData(kind="attribute", name="sourceElement")
+	!ordered ref di.DiagramElement sourceElement;
+
+	@ExtendedMetaData(kind="attribute", name="targetElement")
+	!ordered ref di.DiagramElement targetElement;
+}
+
+@ExtendedMetaData(name="BPMNLabel", kind="elementOnly")
+class BPMNLabel extends di.Label {
+
+	@ExtendedMetaData(kind="attribute", name="labelStyle")
+	!ordered ref BPMNLabelStyle labelStyle;
+}
+
+@ExtendedMetaData(name="BPMNLabelStyle", kind="elementOnly")
+class BPMNLabelStyle extends di.Style {
+
+	@ExtendedMetaData(kind="element", name="Font", namespace="http://www.omg.org/spec/DD/20100524/DC")
+	!ordered val dc.Font[1] font;
+}
+
+@ExtendedMetaData(name="BPMNPlane", kind="elementOnly")
+class BPMNPlane extends di.Plane {
+
+	@ExtendedMetaData(kind="attribute", name="bpmnElement")
+	!ordered ref bpmn2.BaseElement bpmnElement;
+}
+
+@ExtendedMetaData(name="BPMNShape", kind="elementOnly")
+class BPMNShape extends di.LabeledShape {
+
+	@ExtendedMetaData(kind="element", name="BPMNLabel", namespace="http://www.omg.org/spec/BPMN/20100524/DI")
+	!ordered val BPMNLabel label;
+
+	@ExtendedMetaData(kind="attribute", name="bpmnElement")
+	!ordered ref bpmn2.BaseElement bpmnElement;
+
+	@ExtendedMetaData(kind="attribute", name="choreographyActivityShape")
+	!ordered ref BPMNShape choreographyActivityShape;
+
+	@ExtendedMetaData(kind="attribute", name="isExpanded")
+	!ordered attr boolean isExpanded;
+
+	@ExtendedMetaData(kind="attribute", name="isHorizontal")
+	!ordered attr boolean isHorizontal;
+
+	@ExtendedMetaData(kind="attribute", name="isMarkerVisible")
+	!ordered attr boolean isMarkerVisible;
+
+	@ExtendedMetaData(kind="attribute", name="isMessageVisible")
+	!ordered attr boolean isMessageVisible;
+
+	@ExtendedMetaData(kind="attribute", name="participantBandKind")
+	!ordered attr ParticipantBandKind participantBandKind;
+}
+
+enum MessageVisibleKind {
+	initiating = 0;
+	non_initiating = 1;
+}
+
+enum ParticipantBandKind {
+	top_initiating = 0;
+	middle_initiating = 1;
+	bottom_initiating = 2;
+	top_non_initiating = 3;
+	middle_non_initiating = 4;
+	bottom_non_initiating = 5;
+}
+
