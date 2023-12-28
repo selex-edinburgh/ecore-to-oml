@@ -27,5 +27,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="dependencies/com.archimatetool.model.jar"/>
+	<classpathentry kind="lib" path="dependencies/org.eclipse.bpmn2_1.5.2.Final-v20221120-1014.jar"/>
+	<classpathentry kind="lib" path="dependencies/org.eclipse.uml2.uml.resources_5.5.0.v20221116-1811.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

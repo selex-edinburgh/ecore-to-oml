@@ -1,0 +1,9 @@
+PREFIX sadl: <http://www.leonardo.com/lsaf/sadl/SADL#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX first: <http://www.leonardo.com/lsaf/sadl/description/first#>
+
+SELECT ?subject
+WHERE {
+    ?subject rdf:type sadl:Component .
+    
+}

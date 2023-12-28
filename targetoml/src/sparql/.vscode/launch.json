@@ -1,0 +1,12 @@
+{
+    "sparql-executor.endpoints": [
+        {
+            "protocol": "https",
+            "host": "localhost:3030",
+            "path": "/targetoml",
+            "name": "Wikidata",
+            "method": "GET",
+            "queryParameterName": "query"
+        }
+    ]
+}

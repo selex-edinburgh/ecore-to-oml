@@ -36,7 +36,7 @@ ext.dataset = [
     // Name of dataset (matches one used in .fuseki.ttl file)
     name: 'targetoml',
     // Root ontology IRI of the dataset
-    rootOntologyIri: 'http://ecore2oml.com/ecore2oml/vocabulary/bundle',
+    rootOntologyIri: 'http://ecore2oml.com/ecore2oml/description/bundle',
 ]
 
 /*

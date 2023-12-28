@@ -91,7 +91,16 @@ operation M1!ecore::EObject getName(){
             name = name + SEPARATOR() + pos;
         }
     }
-    name = name.trim.replace(" ", SEPARATOR()); 
+    name = name.trim.replace(" ", "-space-"); 
+    name = name.trim.replace("&", "-and-");
+    name = name.trim.replace("/", "-slash-");
+    name = name.trim.replace("'", "-quote-");
+    name = name.trim.replace("\\(", "-openparanthesis-");
+    name = name.trim.replace("\\)", "-closeparanthesis-");
+//    if (self.id <> null){
+//        name = name + SEPARATOR() + self.id;
+//    }
+    
     return name;
 }
 

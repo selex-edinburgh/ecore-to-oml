@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="_qAiVAKWcEe6-jZMZBZGXbQ" version="15.2.0.202303281325">
+  <semanticResources>src/oml/ecore2oml.com/ecore2oml/vocabulary/bundle.oml</semanticResources>
+  <semanticResources>src/oml/www.archimatetool.com/archimate.oml</semanticResources>
+  <semanticResources>build/oml/www.w3.org/2000/01/rdf-schema.oml</semanticResources>
+  <semanticResources>build/oml/purl.org/dc/elements/1.1.oml</semanticResources>
+  <semanticResources>src/oml/www.archimatetool.com/base.oml</semanticResources>
+  <semanticResources>build/oml/www.w3.org/2001/XMLSchema.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/emf/2002/Ecore.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/emf/2002/base.oml</semanticResources>
+  <semanticResources>src/oml/www.archimatetool.com/description/Archisurance.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/base.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/description/java.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/MoDisco/Java/0.2.incubation/java.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/emf/2002/description/ecore.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/uml2/5.0.0/UML.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/uml2/5.0.0/base.oml</semanticResources>
+  <semanticResources>src/oml/www.eclipse.org/uml2/5.0.0/description/uml.oml</semanticResources>
+  <semanticResources>src/oml/www.example.org/TreeDSL.oml</semanticResources>
+  <semanticResources>src/oml/www.example.org/base.oml</semanticResources>
+  <semanticResources>src/oml/www.example.org/description/Tree.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/SADL/description/first.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/SADL/vocabulary/sADL.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/SADL/vocabulary/base.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/SADL/vocabulary/sadl.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/SADL.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/base.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/description/first.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/description/first.sadl.oml</semanticResources>
+  <semanticResources>src/oml/www.leonardo.com/lsaf/sadl/description/sample.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/BPMN/20100524/DI-XMI.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/BPMN/20100524/base.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/DD/20100524/DI-XMI.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/DD/20100524/base.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/DD/20100524/DC-XMI.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/BPMN/20100524/MODEL-XMI.oml</semanticResources>
+  <semanticResources>src/oml/www.omg.org/spec/BPMN/20100524/description/bpmn.oml</semanticResources>
+  <semanticResources>src/oml/example.com/tutorial1/vocabulary/pizza.oml</semanticResources>
+  <semanticResources>src/oml/example.com/tutorial1/description/bundle.oml</semanticResources>
+  <semanticResources>src/oml/example.com/tutorial1/vocabulary/pizza-bundle.oml</semanticResources>
+  <semanticResources>src/oml/example.com/tutorial1/description/restaurant.oml</semanticResources>
+</viewpoint:DAnalysis>
